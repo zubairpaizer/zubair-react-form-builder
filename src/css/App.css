@@ -1,0 +1,51 @@
+.toolbox-list{
+    max-height: 300px;
+    overflow-x: hidden;
+}
+
+.App{
+    padding: 1em;
+}
+
+.singleField{
+    text-transform: capitalize;
+    cursor: grabbing;
+}
+
+.singleField:hover{
+    background: #ccc;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.dragActive{
+    background: #ccc;
+}
+
+.single-field{
+    padding: 1ex;
+    margin: 1ex;
+    background: #eee;
+    border-radius: 5px;
+}
+
+.cross{
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    vertical-align: center;
+    color: red;
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.setting{
+    padding: 1em;
+    background: #fff;
+    border-radius: 8px;
+    -webkit-transition: all 2s; /* Safari */
+    transition: all 2s;
+}
