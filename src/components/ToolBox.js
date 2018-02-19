@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-var InputTypes = [ 'checkbox', 'color', 'date', 'email', 'file',
-    'month', 'number', 'password', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
+
 class ToolBox extends Component {
     render() {
         return (
@@ -12,7 +11,7 @@ class ToolBox extends Component {
                     <div className="card-body toolbox-list p-0">
                         <ul className="list-group">
                             {
-                                InputTypes.map((types) => {
+                                this.props.InputTypes.map((types) => {
                                     return <li draggable={true} onDragStart={(e) => this.dragField(e, types)} key={types} className='list-group-item singleField'>{types}</li>
                                 })
                             }

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ToolBox from './components/ToolBox';
 import FormContainer from './components/FormContainer';
 import './css/App.css';
+var InputTypes = [ 'checkbox', 'color', 'date', 'email', 'file',
+    'month', 'number', 'password', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
 
 class App extends Component {
   render() {
@@ -13,7 +15,7 @@ class App extends Component {
                     <FormContainer />
                 </div>
                 <div className="col-md-4">
-                    <ToolBox />
+                    <ToolBox InputTypes={InputTypes} />
                 </div>
             </div>
         </div>
