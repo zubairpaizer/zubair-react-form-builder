@@ -7,15 +7,50 @@ class SingleField extends Component {
             title : '',
             settingVisible : true,
             placeholder : '',
-            name : ''
-        }
+            name : '',
+            required: false,
+            type : ''
+        };
+        this.changeValue = this.changeValue.bind(this);
+    }
+
+    componentWillMount(){
+        this.setState({
+            type : this.props.field.type
+        })
     }
 
     toggleSettingSection(){
-        console.log(1);
         this.setState({
             settingVisible : !this.state.settingVisible
         })
+    }
+
+    changeValue(state, value){
+        switch (state){
+            case "TITLE" :
+                this.setState( { title : value } )
+             break;
+            case "PLACEHOLDER" :
+                this.setState( { placeholder : value } )
+                break;
+            case "NAME" :
+                this.setState( { name : value } )
+                break;
+            case "REQUIRED" :
+                this.setState( { required : value } )
+                break;
+        };
+        let invokeState = {
+            title : this.state.title,
+            placeholder : this.state.placeholder,
+            name : this.state.name,
+            required: this.state.required,
+            type : this.state.type
+        };
+        setTimeout(() => {
+            return this.props.changeState(invokeState, this.props.index);
+        }, 0)
     }
 
     render() {
@@ -24,10 +59,7 @@ class SingleField extends Component {
                 <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 <div className="form-group">
                     <label htmlFor="title" className='label font-weight-bold'>{ this.state.title }</label>
-                    <input
-                        placeholder={this.props.type}
-                        className='form-control'
-                        type={this.props.type} />
+                    <p htmlFor="title" className='text-capitalize text-center font-weight-bold'>{ this.props.field.type }</p>
                     <hr />
                     <div className="setting p-2">
                         <p className='font-weight-bold'>
@@ -42,8 +74,7 @@ class SingleField extends Component {
                                 </td>
                                 <td>
                                     <div className="form-group">
-                                        <input value={this.state.title}
-                                               onChange={(e) => this.setState({ title : e.target.value })}
+                                        <input onChange={(e) => this.changeValue("TITLE", e.target.value)}
                                                id='title'
                                                placeholder='Field Title'
                                                className='form-control'
@@ -57,9 +88,8 @@ class SingleField extends Component {
                                 </td>
                                 <td>
                                     <input
-                                        value={this.state.placeholder}
+                                        onChange={(e) => this.changeValue("PLACEHOLDER", e.target.value)}
                                         placeholder='Field Placeholder'
-                                        onChange={(e) => this.setState({ placeholder : e.target.value })}
                                         className='form-control'
                                         type="text"/>
                                 </td>
@@ -70,11 +100,19 @@ class SingleField extends Component {
                                 </td>
                                 <td>
                                     <input
-                                        value={this.state.name}
-                                        disabled={true}
-                                        onChange={(e) => this.setState({ name : e.target.value })}
+                                        onChange={(e) => this.changeValue("NAME", e.target.value)}
                                         className='form-control'
                                         type="text"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Required
+                                </td>
+                                <td>
+                                    <input
+                                        onChange={(e) => this.changeValue("REQUIRED", e.target.checked)}
+                                        type="checkbox"/>
                                 </td>
                             </tr>
                             </tbody>

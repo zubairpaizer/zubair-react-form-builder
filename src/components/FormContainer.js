@@ -18,11 +18,15 @@ class FormContainer extends Component {
                         Form Container
                     </div>
                     <div className={ this.state.dragActive ? 'dragActive card-body' : 'card-body'}>
+                        <div><pre>{JSON.stringify(this.state.fields, null, 2) }</pre></div>
                         { this.state.fields.length > 0 ?
                             this.state.fields.map((field, index) => {
                                return (
-                                   <div className="fields">
-                                       <SingleField key={index} type={field} removeField={() => this.remove(index)} />
+                                   <div className="fields" key={index}>
+                                       <SingleField changeState={(e, index) => this.changeChildState(e, index)}
+                                                    field={field}
+                                                    index={index}
+                                                    removeField={() => this.remove(index)} />
                                        <hr />
                                    </div>
                                )
@@ -33,6 +37,14 @@ class FormContainer extends Component {
                 </div>
             </div>
         );
+    }
+
+    changeChildState(e, index){
+        if (index !== -1) {
+            let fields = this.state.fields;
+            fields[index] = e;
+            this.setState( { fields : fields } );
+        }
     }
 
     remove(index){
@@ -57,7 +69,14 @@ class FormContainer extends Component {
         e.preventDefault();
         let data = e.dataTransfer.getData("dragField");
         let fields = this.state.fields;
-        fields.push(data);
+        let meta = {
+                title: '',
+                placeholder: '',
+                name: '',
+                required : false,
+                type: data
+        }
+        fields.push(meta);
         this.setState({
             dragActive : false,
             fields : fields
