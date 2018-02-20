@@ -16,6 +16,10 @@ class ToolBox extends Component {
                                 })
                             }
                         </ul>
+                        <ul className="list-group">
+                              <li draggable={true} onDragStart={(e) => this.dragField(e, 'select')} className='list-group-item singleField'>Select</li>
+                              <li draggable={true} onDragStart={(e) => this.dragField(e, 'textarea')} className='list-group-item singleField'>Text Area</li>
+                        </ul>
                     </div>
                     <div className="card-footer">
                         <span className='pull-right'>Single Fields</span>

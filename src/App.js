@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ToolBox from './components/ToolBox';
 import FormContainer from './components/FormContainer';
+import Text from './components/Types/Text';
 import './css/App.css';
-var InputTypes = [ 'checkbox', 'color', 'date', 'email', 'file',
-    'month', 'number', 'password', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
+var InputTypes = [ 'Checkbox', 'Color', 'Date', 'Email', 'File',
+    'Month', 'Number', 'Password', 'Radio', 'Range', 'Search', 'Tel', 'Text', 'Time', 'Url', 'Week'];
+var MultiTypes = ['select', 'textarea'];
 
 class App extends Component {
   render() {
@@ -12,7 +14,7 @@ class App extends Component {
         <div className="container">
             <div className="row">
                 <div className="col-md-8">
-                    <FormContainer />
+                    <Text InputTypes={InputTypes} />
                 </div>
                 <div className="col-md-4">
                     <ToolBox InputTypes={InputTypes} />

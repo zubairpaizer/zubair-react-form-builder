@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import SingleField from './SingleField';
+import SelectField from './SelectField';
+
 
 class FormContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
             dragActive : false,
-            fields : []
+            fields : [],
+            selectFields : []
         }
         this.catchField = this.catchField.bind(this);
     }
@@ -19,6 +22,21 @@ class FormContainer extends Component {
                     </div>
                     <div className={ this.state.dragActive ? 'dragActive card-body' : 'card-body'}>
                         <div><pre>{JSON.stringify(this.state.fields, null, 2) }</pre></div>
+                        <div><pre>{JSON.stringify(this.state.selectFields, null, 2) }</pre></div>
+                        {
+                            this.state.selectFields.map((field, index) => {
+                                return (
+                                    <div className="fields" key={index}>
+                                        <SelectField changeState={(e, index) => this.changeChildState(e, index)}
+                                                     field={field}
+                                                     index={index}
+                                                     removeField={() => this.remove(index)} />
+                                        <hr />
+                                    </div>
+                                )
+                            })
+                        }
+
                         { this.state.fields.length > 0 ?
                             this.state.fields.map((field, index) => {
                                return (
@@ -68,20 +86,33 @@ class FormContainer extends Component {
     catchField(e){
         e.preventDefault();
         let data = e.dataTransfer.getData("dragField");
-        let fields = this.state.fields;
-        let meta = {
+        var meta = {};
+        if(this.props.InputTypes.indexOf(data) !== -1){
+            meta = {
                 title: '',
                 placeholder: '',
                 name: '',
                 required : false,
                 type: data
+            }
+            let fields = this.state.fields;
+            fields.push(meta);
+            this.setState({
+                dragActive : false,
+                fields : fields
+            });
+        }else if(this.props.MultiTypes.indexOf(data) !== -1){
+            meta = {
+                type: data
+            }
+            let fields = this.state.selectFields;
+            fields.push(meta);
+            this.setState({
+                dragActive : false,
+                selectFields : fields
+            });
         }
-        fields.push(meta);
-        this.setState({
-            dragActive : false,
-            fields : fields
-        });
-        console.log(data);
+
     }
 }
 
