@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import SingleField from './SingleField';
-import SelectField from './SelectField';
+import SingleField from './Types/SingleField';
+import Preview from './Preview';
+
 
 
 class FormContainer extends Component {
@@ -9,34 +10,21 @@ class FormContainer extends Component {
         this.state = {
             dragActive : false,
             fields : [],
-            selectFields : []
         }
         this.catchField = this.catchField.bind(this);
     }
     render() {
         return (
             <div className='toolbox' onDragOver={(e) => this.allowDrop(e)} onDrop={(e) => this.catchField(e)}>
+                <Preview fields={this.state.fields} id='previewModal' />
                 <div className="card card-default">
                     <div className="card-header">
-                        Form Container
+                        <span className="pull-left">Form Container</span>
+                        <div className="actions pull-right">
+                            <button data-toggle="modal" data-target="#previewModal" className="btn btn-sm btn-dark">Preview</button>
+                        </div>
                     </div>
                     <div className={ this.state.dragActive ? 'dragActive card-body' : 'card-body'}>
-                        <div><pre>{JSON.stringify(this.state.fields, null, 2) }</pre></div>
-                        <div><pre>{JSON.stringify(this.state.selectFields, null, 2) }</pre></div>
-                        {
-                            this.state.selectFields.map((field, index) => {
-                                return (
-                                    <div className="fields" key={index}>
-                                        <SelectField changeState={(e, index) => this.changeChildState(e, index)}
-                                                     field={field}
-                                                     index={index}
-                                                     removeField={() => this.remove(index)} />
-                                        <hr />
-                                    </div>
-                                )
-                            })
-                        }
-
                         { this.state.fields.length > 0 ?
                             this.state.fields.map((field, index) => {
                                return (
@@ -65,15 +53,12 @@ class FormContainer extends Component {
         }
     }
 
-    remove(index){
+    remove(indexR){
         let fields = this.state.fields;
-        var f = fields.splice(index, 1);
-
+        delete fields[indexR];
         this.setState({
             fields : fields
-        })
-        console.log(fields);
-        console.log(f);
+        });
     }
 
     allowDrop(e){
@@ -87,13 +72,19 @@ class FormContainer extends Component {
         e.preventDefault();
         let data = e.dataTransfer.getData("dragField");
         var meta = {};
-        if(this.props.InputTypes.indexOf(data) !== -1){
+        if(data === 'SINGLE_FIELD'){
             meta = {
-                title: '',
-                placeholder: '',
-                name: '',
-                required : false,
-                type: data
+                title : 'Title',
+                type : 'Text',
+                defaultValue : '',
+                placeholder : '',
+                description : '',
+                validation : {
+                    isReadOnly: false,
+                    isRequired: false,
+                    min : 6,
+                    max : 6
+                }
             }
             let fields = this.state.fields;
             fields.push(meta);
@@ -101,18 +92,7 @@ class FormContainer extends Component {
                 dragActive : false,
                 fields : fields
             });
-        }else if(this.props.MultiTypes.indexOf(data) !== -1){
-            meta = {
-                type: data
-            }
-            let fields = this.state.selectFields;
-            fields.push(meta);
-            this.setState({
-                dragActive : false,
-                selectFields : fields
-            });
         }
-
     }
 }
 

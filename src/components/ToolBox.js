@@ -11,14 +11,12 @@ class ToolBox extends Component {
                     <div className="card-body toolbox-list p-0">
                         <ul className="list-group">
                             {
-                                this.props.InputTypes.map((types) => {
-                                    return <li draggable={true} onDragStart={(e) => this.dragField(e, types)} key={types} className='list-group-item singleField'>{types}</li>
+                                this.props.tools.map((types) => {
+                                    return <li draggable={true}
+                                               onDragStart={(e) => this.dragField(e, types.name)} key={types.name}
+                                               className='list-group-item singleField'>{types.title}</li>
                                 })
                             }
-                        </ul>
-                        <ul className="list-group">
-                              <li draggable={true} onDragStart={(e) => this.dragField(e, 'select')} className='list-group-item singleField'>Select</li>
-                              <li draggable={true} onDragStart={(e) => this.dragField(e, 'textarea')} className='list-group-item singleField'>Text Area</li>
                         </ul>
                     </div>
                     <div className="card-footer">
