@@ -30,15 +30,26 @@ class Preview extends Component{
 
     renderField(field, index){
         console.log(field);
-        if(field.type === 'Textarea') {
-            return (
-                <div key={index} className="form-group">
-                    <label htmlFor={field.title}>{field.title}</label>
-                    <textarea value={field.defaultValue} placeholder={field.placeholder} className="form-control"
-                              type={field.type} readOnly={field.validation.isReadOnly} required={field.validation.isRequired}></textarea>
-                </div>
-            );
-        }else if(field.type === 'SELECT'){
+        if(field.toolType === 'SINGLE_FIELD') {
+            if(field.type === 'Textarea') {
+                return (
+                    <div key={index} className="form-group">
+                        <label htmlFor={field.title}>{field.title}</label>
+                        <textarea value={field.defaultValue} placeholder={field.placeholder} className="form-control"
+                                  type={field.type} readOnly={field.validation.isReadOnly}
+                                  required={field.validation.isRequired}></textarea>
+                    </div>
+                );
+            }else{
+                return (
+                    <div key={index} className="form-group">
+                        <label htmlFor={field.title}>{field.title}</label>
+                        <input value={field.defaultValue} placeholder={field.placeholder} className="form-control"
+                               type={field.type} readOnly={field.validation.isReadOnly} required={field.validation.isRequired}/>
+                    </div>
+                );
+            }
+        }else if(field.toolType === 'SELECT_FIELD'){
             return (
             <div key={index} className="form-group">
                 <label htmlFor={field.title}>{field.title}</label>
@@ -56,15 +67,26 @@ class Preview extends Component{
                 </select>
             </div>
             )
-        }else{
+        }else if(field.toolType === 'CHECK_BOXES'){
             return (
-                <div key={index} className="form-group">
-                    <label htmlFor={field.title}>{field.title}</label>
-                    <input value={field.defaultValue} placeholder={field.placeholder} className="form-control"
-                           type={field.type} readOnly={field.validation.isReadOnly} required={field.validation.isRequired}/>
-                </div>
-            );
+                field.checkBoxes.map((checkbox) => {
+                    return(
+                        <div className={ field.inline ? "form-check-inline" : "form-check"}>
+                            <input
+                                name={checkbox.value}
+                                checked={checkbox.selected}
+                                className="form-check-input"
+                                type="checkbox"
+                                id={checkbox.value} />
+                            <label className="form-check-label" htmlFor={checkbox.value}>
+                                {checkbox.title}
+                            </label>
+                        </div>
+                    )
+                })
+            )
         }
+        console.log(field);
     }
 }
 

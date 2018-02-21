@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import SingleField from './Types/SingleField';
-import Preview from './Preview';
 import SelectField from "./Types/SelectField";
+import CheckBoxes from './Types/CheckBoxes';
+import Preview from './Preview';
 
 
 
@@ -29,20 +30,7 @@ class FormContainer extends Component {
                         { this.state.fields.length > 0 ?
                             this.state.fields.map((field, index) => {
                                return (
-                                   <div className="fields" key={index}>
-                                       { field.type === "SELECT" ?
-                                            <SelectField changeState={(e, index) => this.changeChildState(e, index)}
-                                                         field={field}
-                                                         index={index}
-                                                         removeField={() => this.remove(index)} />
-                                           :
-                                           <SingleField changeState={(e, index) => this.changeChildState(e, index)}
-                                                        field={field}
-                                                        index={index}
-                                                        removeField={() => this.remove(index)} />
-                                       }
-                                       <hr />
-                                   </div>
+                                    this.renderToolBoxItems(field, index)
                                )
                             })
                             : <span>I m waiting your step</span>
@@ -51,6 +39,42 @@ class FormContainer extends Component {
                 </div>
             </div>
         );
+    }
+
+    renderToolBoxItems(field, index){
+        return (
+            <div className="fields" key={index}>
+                { this.renderTool(field, index) }
+                <hr />
+            </div>
+        )
+    }
+
+    renderTool(field, index){
+        if(field.toolType === 'SELECT_FIELD'){
+            return (
+                <SelectField key={index} changeState={(e, index) => this.changeChildState(e, index)}
+                             field={field}
+                             index={index}
+                             removeField={() => this.remove(index)} />
+            )
+        }else if(field.toolType === 'SINGLE_FIELD'){
+            return (
+                <SingleField changeState={(e, index) => this.changeChildState(e, index)}
+                             field={field}
+                             key={index}
+                             index={index}
+                             removeField={() => this.remove(index)} />
+            )
+        }else if(field.toolType === 'CHECK_BOXES'){
+            return (
+                <CheckBoxes changeState={(e, index) => this.changeChildState(e, index)}
+                            field={field}
+                            index={index}
+                            key={index}
+                            removeField={() => this.remove(index)} />
+            )
+        }
     }
 
     changeChildState(e, index){
@@ -84,6 +108,7 @@ class FormContainer extends Component {
             meta = {
                 title : 'Title',
                 type : 'Text',
+                toolType : 'SINGLE_FIELD',
                 defaultValue : '',
                 placeholder : '',
                 description : '',
@@ -98,6 +123,7 @@ class FormContainer extends Component {
             meta = {
                 title : 'Title',
                 type : 'SELECT',
+                toolType : 'SELECT_FIELD',
                 multiple: false,
                 defaultValue : '',
                 placeholder : '',
@@ -109,6 +135,22 @@ class FormContainer extends Component {
                     max : 6
                 },
                 options : []
+            }
+        }else if(data === 'CHECK_BOXES'){
+            meta = {
+                title : 'Title',
+                toolType : 'CHECK_BOXES',
+                inline: false,
+                defaultValue : '',
+                placeholder : '',
+                description : '',
+                validation : {
+                    isReadOnly: false,
+                    isRequired: false,
+                    min : 6,
+                    max : 6
+                },
+                checkBoxes : []
             }
         }
         let fields = this.state.fields;

@@ -8,6 +8,7 @@ class SingleField extends Component{
             tab : '',
             title : '',
             type : 'Text',
+            toolType : 'SINGLE_FIELD',
             defaultValue : '',
             placeholder : '',
             description : '',
@@ -50,6 +51,8 @@ class SingleField extends Component{
             case "MIN" :
                 this.setState( { validation : { ...this.state.validation, min : value }})
                 break;
+            default:
+                return;
         };
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
@@ -145,7 +148,7 @@ class SingleField extends Component{
                                 <input
                                     value={this.state.validation.isRequired}
                                     onChange={(e) => this.changeValue("IS_REQUIRED", e.target.checked)}
-                                    className="form-check-input" type="checkbox" value="" id="isRequired" />
+                                    className="form-check-input" type="checkbox" id="isRequired" />
                                     <label className="form-check-label" htmlFor="isRequired">
                                         Required
                                     </label>
@@ -157,7 +160,7 @@ class SingleField extends Component{
                                     value={this.state.validation.isReadOnly}
                                     onChange={(e) => this.changeValue("IS_READONLY", e.target.checked)}
                                     className="form-check-input"
-                                    type="checkbox" value=""
+                                    type="checkbox"
                                     id="isReadOnly" />
                                 <label className="form-check-label" htmlFor="isReadOnly">
                                     Readonly

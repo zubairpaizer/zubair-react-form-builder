@@ -6,6 +6,7 @@ class SelectField extends Component {
         this.state = {
             tab : '',
             type: 'SELECT',
+            toolType : 'SELECT_FIELD',
             title : '',
             multiple: false,
             defaultValue : '',
@@ -54,6 +55,8 @@ class SelectField extends Component {
             case "MULTIPLE" :
                 this.setState( { multiple : value } )
                 break;
+            default:
+                return;
         };
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
@@ -85,7 +88,7 @@ class SelectField extends Component {
                                 <input
                                     value={this.state.multiple}
                                     onChange={(e) => this.changeValue("MULTIPLE", e.target.checked)}
-                                    className="form-check-input" type="checkbox" value="" id="multiple" />
+                                    className="form-check-input" type="checkbox" id="multiple" />
                                 <label className="form-check-label" htmlFor="isRequired">
                                     Multiple Selection
                                 </label>
@@ -133,7 +136,7 @@ class SelectField extends Component {
                                 <input
                                     value={this.state.validation.isRequired}
                                     onChange={(e) => this.changeValue("IS_REQUIRED", e.target.checked)}
-                                    className="form-check-input" type="checkbox" value="" id="isRequired" />
+                                    className="form-check-input" type="checkbox" id="isRequired" />
                                 <label className="form-check-label" htmlFor="isRequired">
                                     Required
                                 </label>
@@ -145,7 +148,7 @@ class SelectField extends Component {
                                     value={this.state.validation.isReadOnly}
                                     onChange={(e) => this.changeValue("IS_READONLY", e.target.checked)}
                                     className="form-check-input"
-                                    type="checkbox" value=""
+                                    type="checkbox"
                                     id="isReadOnly" />
                                 <label className="form-check-label" htmlFor="isReadOnly">
                                     Readonly
@@ -236,7 +239,7 @@ class SelectField extends Component {
                 ...options[index],
                 title : value,
             }
-        }else if(state == 'SELECTED')
+        }else if(state === 'SELECTED')
             option = {
                 ...options[index],
                 selected : !options[index].selected

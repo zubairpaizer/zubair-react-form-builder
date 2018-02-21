@@ -11,6 +11,10 @@ let Tools = [
     {
         title : 'Select',
         name : 'SELECT_FIELD'
+    },
+    {
+        title : 'Check Boxes',
+        name : 'CHECK_BOXES'
     }
 ];
 
