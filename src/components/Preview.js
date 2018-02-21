@@ -29,6 +29,7 @@ class Preview extends Component{
     }
 
     renderField(field, index){
+        console.log(field);
         if(field.type === 'Textarea') {
             return (
                 <div key={index} className="form-group">
@@ -37,7 +38,25 @@ class Preview extends Component{
                               type={field.type} readOnly={field.validation.isReadOnly} required={field.validation.isRequired}></textarea>
                 </div>
             );
-        }else {
+        }else if(field.type === 'SELECT'){
+            return (
+            <div key={index} className="form-group">
+                <label htmlFor={field.title}>{field.title}</label>
+                <select className='form-control' multiple={field.multiple}>
+                    {
+                        field.options.map((option, index) => {
+                          return option.selected ?
+                              <option
+                              selected={option.selected}
+                              key={index} value={option.value}>{option.title}</option>
+                              :  <option
+                                  key={index} value={option.value}>{option.title}</option>
+                        })
+                    }
+                </select>
+            </div>
+            )
+        }else{
             return (
                 <div key={index} className="form-group">
                     <label htmlFor={field.title}>{field.title}</label>

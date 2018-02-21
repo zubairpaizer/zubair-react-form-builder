@@ -7,6 +7,10 @@ let Tools = [
     {
         title : 'Single Field',
         name : 'SINGLE_FIELD'
+    },
+    {
+        title : 'Select',
+        name : 'SELECT_FIELD'
     }
 ];
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SingleField from './Types/SingleField';
 import Preview from './Preview';
+import SelectField from "./Types/SelectField";
 
 
 
@@ -29,10 +30,17 @@ class FormContainer extends Component {
                             this.state.fields.map((field, index) => {
                                return (
                                    <div className="fields" key={index}>
-                                       <SingleField changeState={(e, index) => this.changeChildState(e, index)}
-                                                    field={field}
-                                                    index={index}
-                                                    removeField={() => this.remove(index)} />
+                                       { field.type === "SELECT" ?
+                                            <SelectField changeState={(e, index) => this.changeChildState(e, index)}
+                                                         field={field}
+                                                         index={index}
+                                                         removeField={() => this.remove(index)} />
+                                           :
+                                           <SingleField changeState={(e, index) => this.changeChildState(e, index)}
+                                                        field={field}
+                                                        index={index}
+                                                        removeField={() => this.remove(index)} />
+                                       }
                                        <hr />
                                    </div>
                                )
@@ -86,13 +94,29 @@ class FormContainer extends Component {
                     max : 6
                 }
             }
-            let fields = this.state.fields;
-            fields.push(meta);
-            this.setState({
-                dragActive : false,
-                fields : fields
-            });
+        }else if(data === 'SELECT_FIELD'){
+            meta = {
+                title : 'Title',
+                type : 'SELECT',
+                multiple: false,
+                defaultValue : '',
+                placeholder : '',
+                description : '',
+                validation : {
+                    isReadOnly: false,
+                    isRequired: false,
+                    min : 6,
+                    max : 6
+                },
+                options : []
+            }
         }
+        let fields = this.state.fields;
+        fields.push(meta);
+        this.setState({
+            dragActive : false,
+            fields : fields
+        });
     }
 }
 
