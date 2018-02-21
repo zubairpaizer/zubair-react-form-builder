@@ -29,7 +29,6 @@ class Preview extends Component{
     }
 
     renderField(field, index){
-        console.log(field);
         if(field.toolType === 'SINGLE_FIELD') {
             if(field.type === 'Textarea') {
                 return (
@@ -69,24 +68,59 @@ class Preview extends Component{
             )
         }else if(field.toolType === 'CHECK_BOXES'){
             return (
-                field.checkBoxes.map((checkbox) => {
-                    return(
-                        <div className={ field.inline ? "form-check-inline" : "form-check"}>
-                            <input
-                                name={checkbox.value}
-                                checked={checkbox.selected}
-                                className="form-check-input"
-                                type="checkbox"
-                                id={checkbox.value} />
-                            <label className="form-check-label" htmlFor={checkbox.value}>
-                                {checkbox.title}
-                            </label>
-                        </div>
-                    )
-                })
+                <div className="radios">
+                    <label htmlFor="">{ field.title }</label>
+                    {
+                        field.checkBoxes.map((checkbox, index) => {
+                            return(
+                                <div key={index} className={ field.inline ? "form-check-inline" : "form-check"}>
+                                    <input
+                                        name={checkbox.value}
+                                        checked={checkbox.selected}
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id={checkbox.value} />
+                                    <label className="form-check-label" htmlFor={checkbox.value}>
+                                        {checkbox.title}
+                                    </label>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            )
+        }else if(field.toolType === 'RADIO_BUTTONS'){
+            return (
+               <div className="radios">
+                    <label htmlFor="">{ field.title }</label>
+                {
+                    field.radios.map((radio, index) => {
+                        return (
+                            <div key={index} className={field.inline ? "form-check-inline" : "form-check"}>
+                                <input
+                                    name={ field.multiple ? index : 'radio-group' }
+                                    className="form-check-input"
+                                    type="radio"
+                                    checked={radio.selected || index === field.defaultValue}
+                                    value={radio.selected}
+                                    id={radio.selected} />
+                                <label className="form-check-label" htmlFor={radio.value}>
+                                    {radio.title}
+                                </label>
+                            </div>
+                        )
+                    })
+                }
+              </div>
+            )
+        }else if(field.toolType === 'PARAGRAPH'){
+            return (
+                <div className="paragraph">
+                    <p className="p-2" style={{ textAlign : field.align, backgroundColor : field.backgroundColor, color : field.textColor }}>{field.content}</p>
+                </div>
             )
         }
-        console.log(field);
+
     }
 }
 

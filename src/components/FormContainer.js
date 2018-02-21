@@ -3,6 +3,8 @@ import SingleField from './Types/SingleField';
 import SelectField from "./Types/SelectField";
 import CheckBoxes from './Types/CheckBoxes';
 import Preview from './Preview';
+import RadioButtons from "./Types/RadioButtons";
+import Paragraph from "./Types/Paragraph";
 
 
 
@@ -73,6 +75,22 @@ class FormContainer extends Component {
                             index={index}
                             key={index}
                             removeField={() => this.remove(index)} />
+            )
+        }else if(field.toolType === 'RADIO_BUTTONS'){
+            return (
+                <RadioButtons changeState={(e, index) => this.changeChildState(e, index)}
+                            field={field}
+                            index={index}
+                            key={index}
+                            removeField={() => this.remove(index)} />
+            )
+        }else if(field.toolType === 'PARAGRAPH'){
+            return (
+                <Paragraph changeState={(e, index) => this.changeChildState(e, index)}
+                              field={field}
+                              index={index}
+                              key={index}
+                              removeField={() => this.remove(index)} />
             )
         }
     }
@@ -151,6 +169,35 @@ class FormContainer extends Component {
                     max : 6
                 },
                 checkBoxes : []
+            }
+        }
+        else if(data === 'RADIO_BUTTONS'){
+            meta = {
+                title : 'Title',
+                toolType : 'RADIO_BUTTONS',
+                multiple : false,
+                inline: false,
+                defaultValue : '',
+                placeholder : '',
+                description : '',
+                validation : {
+                    isReadOnly: false,
+                    isRequired: false,
+                    min : 6,
+                    max : 6
+                },
+                radios : []
+            }
+        }else if(data === 'PARAGRAPH'){
+            meta = {
+                title : 'Title',
+                toolType : 'PARAGRAPH',
+                content : '',
+                textColor : '',
+                backgroundColor : '',
+                color : '',
+                fontSize : '',
+                align : ''
             }
         }
         let fields = this.state.fields;

@@ -15,6 +15,14 @@ let Tools = [
     {
         title : 'Check Boxes',
         name : 'CHECK_BOXES'
+    },
+    {
+        title : 'Radio Buttons',
+        name : 'RADIO_BUTTONS'
+    },
+    {
+        title : 'Paragraph',
+        name : 'PARAGRAPH'
     }
 ];
 
