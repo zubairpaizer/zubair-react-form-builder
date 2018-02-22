@@ -52,7 +52,9 @@ class Preview extends Component{
             return (
             <div key={index} className="form-group">
                 <label htmlFor={field.title}>{field.title}</label>
-                <select className='form-control' multiple={field.multiple}>
+                <select value={field.defaultValue}
+                        className='form-control'
+                        multiple={field.multiple}>
                     {
                         field.options.map((option, index) => {
                           return option.selected ?

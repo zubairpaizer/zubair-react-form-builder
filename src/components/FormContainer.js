@@ -55,10 +55,12 @@ class FormContainer extends Component {
     renderTool(field, index){
         if(field.toolType === 'SELECT_FIELD'){
             return (
-                <SelectField key={index} changeState={(e, index) => this.changeChildState(e, index)}
-                             field={field}
-                             index={index}
-                             removeField={() => this.remove(index)} />
+                <div className='selectField'>
+                    <SelectField key={index} changeState={(e, index) => this.changeChildState(e, index)}
+                                 field={field}
+                                 index={index}
+                                 removeField={() => this.remove(index)} />
+                </div>
             )
         }else if(field.toolType === 'SINGLE_FIELD'){
             return (

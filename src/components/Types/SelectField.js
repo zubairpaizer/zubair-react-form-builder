@@ -101,26 +101,12 @@ class SelectField extends Component {
                                 </label>
                             </div>
                             <hr />
-                            <div className="row">
-                                <div className="col-6">
-                                    <div className="form-group">
-                                        <label htmlFor="title">Default</label>
-                                        <input type="text"
-                                               value={this.state.defaultValue}
-                                               onChange={(e) => this.changeValue("DEFAULT_VALUE", e.target.value)}
-                                               placeholder='Default Value'
-                                               className='form-control' />
-                                    </div>
-                                </div>
-                                <div className="col-6">
-                                    <div className="form-group">
-                                        <label htmlFor="title">Label Title</label>
-                                        <input type="text"
-                                               value={this.state.title}
-                                               onChange={(e) => this.changeValue("TITLE", e.target.value)}
-                                               placeholder='Field Label Title' className='form-control' />
-                                    </div>
-                                </div>
+                            <div className="form-group">
+                                <label htmlFor="title">Label Title</label>
+                                <input type="text"
+                                       value={this.state.title}
+                                       onChange={(e) => this.changeValue("TITLE", e.target.value)}
+                                       placeholder='Field Label Title' className='form-control' />
                             </div>
                             <hr />
                             <div className="row">
@@ -195,7 +181,7 @@ class SelectField extends Component {
                                         return (
                                                 <tr key={index}>
                                                     { this.state.multiple ?
-                                                        <td>
+                                                        <td style={{ verticalAlign : 'middle' }}>
                                                             <div className="radio">
                                                                 {
                                                                    <input
@@ -221,6 +207,15 @@ class SelectField extends Component {
                                                             type='text'
                                                             className='form-control' />
                                                     </td>
+                                                    {!this.state.multiple ?
+                                                        <td style={{ verticalAlign : 'middle' }}>
+                                                            <input
+                                                                name='default'
+                                                                onChange={(e) => this.changeOptionValue(index, e.target.checked, "DEFAULT_VALUE")}
+                                                                id={option.value}
+                                                                type='radio'/>
+                                                        </td> : <td></td>
+                                                    }
                                                 </tr>
                                         )
                                      }) }
@@ -241,27 +236,35 @@ class SelectField extends Component {
     changeOptionValue(index, value, state){
         let options = this.state.options;
         let option = {};
+        console.log(index, value, state);
+
         if(state === "TITLE"){
             option = {
                 ...options[index],
                 title : value,
             }
-        }else if(state === 'SELECTED')
+        }else if(state === 'SELECTED'){
             option = {
                 ...options[index],
-                selected : !options[index].selected
+                selected: !options[index].selected
             }
-        else{
+        }else if(state === "VALUE"){
             option = {
                 ...options[index],
                 value : value
             }
         }
-        options[index] = option;
-        this.setState({
-           options : options
-        });
-
+        if(state === "DEFAULT_VALUE"){
+            let val = options[index].value;
+            this.setState({
+                defaultValue : val
+            })
+        }else{
+            options[index] = option;
+            this.setState({
+                options : options
+            });
+        }
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
         }, 0)
