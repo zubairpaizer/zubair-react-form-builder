@@ -58,7 +58,7 @@ class CheckBoxes extends Component {
         return(
             <div className="card card-outline-primary">
                 <div className="card-header">
-                    Check Boxes
+                    Check Boxes { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
                 <div className="card-body">
@@ -71,6 +71,13 @@ class CheckBoxes extends Component {
                         </li>
                         <li className="nav-item">
                             <a onClick={(e) => { e.preventDefault(); this.setState({ tab : 'options' })}} className={this.state.tab === 'options' ? 'nav-link active' : 'nav-link'} href="/options">Options</a>
+                        </li>
+                        <li className="nav-item" style={{
+                            textAlign: 'right',
+                            position: 'absolute',
+                            right: '15px',
+                        }}>
+                            <a onClick={(e) => { e.preventDefault(); this.setState({ tab : '' })}} className={this.state.tab === '' ? 'nav-link active font-weight-bold' : 'nav-link'} href="/hide">-</a>
                         </li>
                     </ul>
                     <div hidden={this.state.tab !== 'general'} className="general">

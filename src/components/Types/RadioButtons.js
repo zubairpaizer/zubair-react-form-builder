@@ -62,7 +62,7 @@ class RadioButtons extends Component {
         return(
             <div className="card card-outline-primary">
                 <div className="card-header">
-                    Radio Buttons
+                    Radio Buttons { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
                 <div className="card-body">
@@ -75,6 +75,13 @@ class RadioButtons extends Component {
                         </li>
                         <li className="nav-item">
                             <a onClick={(e) => { e.preventDefault(); this.setState({ tab : 'options' })}} className={this.state.tab === 'options' ? 'nav-link active' : 'nav-link'} href="/options">Options</a>
+                        </li>
+                        <li className="nav-item" style={{
+                            textAlign: 'right',
+                            position: 'absolute',
+                            right: '15px',
+                        }}>
+                            <a onClick={(e) => { e.preventDefault(); this.setState({ tab : '' })}} className={this.state.tab === '' ? 'nav-link active font-weight-bold' : 'nav-link'} href="/hide">-</a>
                         </li>
                     </ul>
                     <div hidden={this.state.tab !== 'general'} className="general">
@@ -176,7 +183,7 @@ class RadioButtons extends Component {
                                                 return (
                                                     <tr key={index}>
                                                         { this.state.multiple ?
-                                                            <td>
+                                                            <td style={{ verticalAlign : 'middle' }}>
                                                                 <div className="radio">
                                                                     {
                                                                         <input
@@ -202,13 +209,15 @@ class RadioButtons extends Component {
                                                                 type='text'
                                                                 className='form-control' />
                                                         </td>
-                                                        <td>
-                                                            <input
-                                                                name='default'
-                                                                onChange={(e) => this.changeOptionValue(index, e.target.checked, "DEFAULT_VALUE")}
-                                                                id={checkbox.value}
-                                                                type='radio' />
-                                                        </td>
+                                                        {!this.state.multiple ?
+                                                            <td style={{ verticalAlign : 'middle' }}>
+                                                                <input
+                                                                    name='default'
+                                                                    onChange={(e) => this.changeOptionValue(index, e.target.checked, "DEFAULT_VALUE")}
+                                                                    id={checkbox.value}
+                                                                    type='radio'/>
+                                                            </td> : <td></td>
+                                                        }
                                                     </tr>
                                                 )
                                             }) }

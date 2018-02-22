@@ -93,30 +93,35 @@ class Preview extends Component{
             return (
                <div className="radios">
                     <label htmlFor="">{ field.title }</label>
-                {
-                    field.radios.map((radio, index) => {
-                        return (
-                            <div key={index} className={field.inline ? "form-check-inline" : "form-check"}>
-                                <input
-                                    name={ field.multiple ? index : 'radio-group' }
-                                    className="form-check-input"
-                                    type="radio"
-                                    checked={radio.selected || index === field.defaultValue}
-                                    value={radio.selected}
-                                    id={radio.selected} />
-                                <label className="form-check-label" htmlFor={radio.value}>
-                                    {radio.title}
-                                </label>
-                            </div>
-                        )
-                    })
-                }
+                   <div className="radios-buttons">
+                        {
+                            field.radios.map((radio, index) => {
+                                return (
+                                    <div key={index} className={field.inline ? "form-check-inline" : "form-check"}>
+                                        <input
+                                            name={ field.multiple ? index : 'radio-group' }
+                                            className="form-check-input"
+                                            type="radio"
+                                            checked={radio.selected || index === field.defaultValue}
+                                            value={radio.selected}
+                                            id={radio.selected} />
+                                        <label className="form-check-label" htmlFor={radio.value}>
+                                            {radio.title}
+                                        </label>
+                                    </div>
+                                )
+                            })
+                        }
+                   </div>
               </div>
             )
         }else if(field.toolType === 'PARAGRAPH'){
             return (
-                <div className="paragraph">
-                    <p className="p-2" style={{ textAlign : field.align, backgroundColor : field.backgroundColor, color : field.textColor }}>{field.content}</p>
+                <div key={index} className="paragraph">
+                    <span hidden={field.title === ""} >{ field.title }</span>
+                    <p className="p-2" style={{ textAlign : field.align, backgroundColor : field.backgroundColor, color : field.textColor }}>
+                        {field.content}
+                    </p>
                 </div>
             )
         }

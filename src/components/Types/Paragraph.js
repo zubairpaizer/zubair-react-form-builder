@@ -10,7 +10,7 @@ class Paragraph extends Component{
             title : '',
             content : '',
             textColor : '#000000',
-            backgroundColor : '#ffffff',
+            backgroundColor : '#cccccc',
             color : '',
             fontSize : '10',
             align : 'center'
@@ -58,7 +58,7 @@ class Paragraph extends Component{
             <div className="paragraph">
                 <div className="card">
                     <div className="card-header">
-                        Paragraph
+                        Paragraph { this.state.title }
                         <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                     </div>
                     <div className="card-body">
@@ -68,6 +68,13 @@ class Paragraph extends Component{
                             </li>
                             <li className="nav-item">
                                 <a onClick={(e) => { e.preventDefault(); this.setState({ tab : 'style' })}} className={this.state.tab === 'style' ? 'nav-link active' : 'nav-link'} href="/style">Style</a>
+                            </li>
+                            <li className="nav-item" style={{
+                                textAlign: 'right',
+                                position: 'absolute',
+                                right: '15px',
+                            }}>
+                                <a onClick={(e) => { e.preventDefault(); this.setState({ tab : '' })}} className={this.state.tab === '' ? 'nav-link active font-weight-bold' : 'nav-link'} href="/hide">-</a>
                             </li>
                         </ul>
                         <div className="content" hidden={this.state.tab !== 'content'}>
@@ -85,7 +92,7 @@ class Paragraph extends Component{
                                     <textarea id="paragraph"
                                               value={this.state.content}
                                               onChange={(e) => this.changeValue("CONTENT", e.target.value)}
-                                              className='form-control'></textarea>
+                                              className='form-control'/>
                                 </div>
                             </div>
                         </div>

@@ -63,7 +63,7 @@ class SingleField extends Component{
         return(
             <div className="card card-outline-primary">
                 <div className="card-header">
-                    Single Field
+                    Single Field { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
                 <div className="card-body">
@@ -73,6 +73,13 @@ class SingleField extends Component{
                         </li>
                         <li className="nav-item">
                             <a onClick={(e) => { e.preventDefault(); this.setState({ tab : 'validation' })}} className={this.state.tab === 'validation' ? 'nav-link active' : 'nav-link'} href="/validation">Validation</a>
+                        </li>
+                        <li className="nav-item" style={{
+                            textAlign: 'right',
+                            position: 'absolute',
+                            right: '15px',
+                        }}>
+                            <a onClick={(e) => { e.preventDefault(); this.setState({ tab : '' })}} className={this.state.tab === '' ? 'nav-link active font-weight-bold' : 'nav-link'} href="/hide">-</a>
                         </li>
                     </ul>
                     <div hidden={this.state.tab !== 'general'} className="general">
