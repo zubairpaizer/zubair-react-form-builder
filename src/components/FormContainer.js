@@ -6,8 +6,6 @@ import Preview from './Preview';
 import RadioButtons from "./Types/RadioButtons";
 import Paragraph from "./Types/Paragraph";
 
-
-
 class FormContainer extends Component {
     constructor(props){
         super(props);
@@ -19,7 +17,10 @@ class FormContainer extends Component {
     }
     render() {
         return (
-            <div className='toolbox' onDragOver={(e) => this.allowDrop(e)} onDrop={(e) => this.catchField(e)}>
+            <div className='toolbox'
+                 onDragOver={(e) => this.allowDrop(e)}
+                 onDrop={(e) => this.catchField(e)}
+                 onDragLeave={() => this.setState({dragActive : false})}>
                 <Preview fields={this.state.fields} id='previewModal' />
                 <div className="card card-default">
                     <div className="card-header">
@@ -29,25 +30,50 @@ class FormContainer extends Component {
                         </div>
                     </div>
                     <div className={ this.state.dragActive ? 'dragActive card-body' : 'card-body'}>
-                        { this.state.fields.length > 0 ?
-                            this.state.fields.map((field, index) => {
-                               return (
-                                    this.renderToolBoxItems(field, index)
-                               )
-                            })
-                            : <span>I m waiting your step</span>
-                        }
+                        <div ref={(l) => this.tooList = l} className="list-group">
+                            { this.state.fields.length > 0 ?
+                                this.state.fields.map((field, index) => {
+                                   return (
+                                        this.renderToolBoxItems(field, index)
+                                   )
+                                })
+                                : <span>I m waiting your step</span>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         );
     }
 
+    componentDidMount(){
+        let list = this.tooList;
+        let self = this;
+        var $ = window.$;
+        $( function() {
+            $( list ).sortable({
+                update: function( event, ui ) {
+                    let order = [];
+                    $(list).children().each((i, l) => {
+                        let index = $(l).attr('data-index');
+                        order.push(self.state.fields[index]);
+                    });
+                    self.setState({
+                        fields : order
+                    });
+                    console.log(self.state);
+                    console.log(order);
+                }
+            });
+            $( list ).disableSelection();
+        } );
+    }
+
     renderToolBoxItems(field, index){
         return (
-            <div className="fields" key={index}>
+            <div key={index} data-index={index}>
                 { this.renderTool(field, index) }
-                <hr />
+               <hr/>
             </div>
         )
     }
@@ -55,44 +81,44 @@ class FormContainer extends Component {
     renderTool(field, index){
         if(field.toolType === 'SELECT_FIELD'){
             return (
-                <div className='selectField'>
-                    <SelectField key={index} changeState={(e, index) => this.changeChildState(e, index)}
+                    <SelectField changeState={(e, index) => this.changeChildState(e, index)}
                                  field={field}
                                  index={index}
+                                 key={index}
                                  removeField={() => this.remove(index)} />
-                </div>
             )
         }else if(field.toolType === 'SINGLE_FIELD'){
             return (
-                <SingleField changeState={(e, index) => this.changeChildState(e, index)}
-                             field={field}
-                             key={index}
-                             index={index}
-                             removeField={() => this.remove(index)} />
+                    <SingleField changeState={(e, index) => this.changeChildState(e, index)}
+                                 field={field}
+                                 index={index}
+                                 key={index}
+                                 removeField={() => this.remove(index)} />
             )
         }else if(field.toolType === 'CHECK_BOXES'){
             return (
-                <CheckBoxes changeState={(e, index) => this.changeChildState(e, index)}
-                            field={field}
-                            index={index}
-                            key={index}
-                            removeField={() => this.remove(index)} />
+                    <CheckBoxes changeState={(e, index) => this.changeChildState(e, index)}
+                                field={field}
+                                index={index}
+                                key={index}
+                                removeField={() => this.remove(index)} />
             )
         }else if(field.toolType === 'RADIO_BUTTONS'){
             return (
-                <RadioButtons changeState={(e, index) => this.changeChildState(e, index)}
+                <RadioButtons
+                            changeState={(e, index) => this.changeChildState(e, index)}
                             field={field}
-                            index={index}
                             key={index}
+                            index={index}
                             removeField={() => this.remove(index)} />
             )
         }else if(field.toolType === 'PARAGRAPH'){
             return (
                 <Paragraph changeState={(e, index) => this.changeChildState(e, index)}
-                              field={field}
-                              index={index}
-                              key={index}
-                              removeField={() => this.remove(index)} />
+                           field={field}
+                           key={index}
+                           index={index}
+                           removeField={() => this.remove(index)} />
             )
         }
     }
@@ -122,7 +148,14 @@ class FormContainer extends Component {
 
     catchField(e){
         e.preventDefault();
+        let tools = ["SINGLE_FIELD", "SELECT_FIELD", "CHECK_BOXES", "RADIO_BUTTONS", "PARAGRAPH"];
         let data = e.dataTransfer.getData("dragField");
+        if(tools.indexOf(data) === -1){
+            this.setState({
+                dragActive : false,
+            });
+            return;
+        }
         var meta = {};
         if(data === 'SINGLE_FIELD'){
             meta = {

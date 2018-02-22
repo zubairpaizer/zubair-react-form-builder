@@ -70,7 +70,7 @@ class Preview extends Component{
             )
         }else if(field.toolType === 'CHECK_BOXES'){
             return (
-                <div className="radios">
+                <div key={index} className="radios">
                     <label htmlFor="">{ field.title }</label>
                     {
                         field.checkBoxes.map((checkbox, index) => {
@@ -93,7 +93,7 @@ class Preview extends Component{
             )
         }else if(field.toolType === 'RADIO_BUTTONS'){
             return (
-               <div className="radios">
+               <div key={index} className="radios">
                     <label htmlFor="">{ field.title }</label>
                    <div className="radios-buttons">
                         {
@@ -117,7 +117,7 @@ class Preview extends Component{
                    </div>
               </div>
             )
-        }else if(field.toolType === 'PARAGRAPH'){
+        }else if(field.toolType === "PARAGRAPH"){
             return (
                 <div key={index} className="paragraph">
                     <span hidden={field.title === ""} >{ field.title }</span>

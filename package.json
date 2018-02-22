@@ -4,8 +4,11 @@
   "author": "Zubair Ibrahim <zubair.paizer@hotmail.com>",
   "main": "index.js",
   "dependencies": {
+    "babel": "^6.23.0",
     "bootstrap": "^4.0.0",
     "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
     "popper.js": "^1.12.9",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -15,7 +18,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "transpile": "babel .src/App.js --presets babel-preset-es2015 --out-file lib/App.js"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  }
 }
