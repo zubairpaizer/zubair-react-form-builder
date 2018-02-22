@@ -18,6 +18,7 @@ class FormContainer extends Component {
     render() {
         return (
             <div className='toolbox'
+                 ref={(c) => this._toolBoxContainer = c}
                  onDragOver={(e) => this.allowDrop(e)}
                  onDrop={(e) => this.catchField(e)}
                  onDragLeave={() => this.setState({dragActive : false})}>
@@ -48,9 +49,26 @@ class FormContainer extends Component {
 
     componentDidMount(){
         let list = this.tooList;
+        let toolBoxContainer = this._toolBoxContainer;
         let self = this;
         var $ = window.$;
         $( function() {
+            $( toolBoxContainer ).droppable({
+                drop: function( event, ui ) {
+                    let tool = $(ui.draggable[0]).attr('data-tool');
+                    self.catchField(tool);
+                },
+                over : function (event, ui) {
+                    self.setState({
+                        dragActive : true,
+                    })
+                },
+                out : function (event, ui) {
+                    self.setState({
+                        dragActive : false,
+                    })
+                }
+            });
             $( list ).sortable({
                 update: function( event, ui ) {
                     let order = [];
@@ -146,10 +164,8 @@ class FormContainer extends Component {
         });
     }
 
-    catchField(e){
-        e.preventDefault();
+    catchField(data){
         let tools = ["SINGLE_FIELD", "SELECT_FIELD", "CHECK_BOXES", "RADIO_BUTTONS", "PARAGRAPH"];
-        let data = e.dataTransfer.getData("dragField");
         if(tools.indexOf(data) === -1){
             this.setState({
                 dragActive : false,

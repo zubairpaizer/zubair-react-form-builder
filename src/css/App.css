@@ -42,6 +42,10 @@
     cursor: pointer;
 }
 
+.pull-right{
+    float: right;
+}
+
 .setting{
     padding: 1em;
     background: #fff;

@@ -9,10 +9,10 @@ class ToolBox extends Component {
                         ToolBox
                     </div>
                     <div className="card-body toolbox-list p-0">
-                        <ul className="list-group">
+                        <ul className="list-group" ref={(tools) => this._tools = tools}>
                             {
                                 this.props.tools.map((types) => {
-                                    return <li draggable={true}
+                                    return <li data-tool={types.name}
                                                onDragStart={(e) => this.dragField(e, types.name)} key={types.name}
                                                className='list-group-item singleField'>{types.title}</li>
                                 })
@@ -25,6 +25,14 @@ class ToolBox extends Component {
                 </div>
             </div>
         );
+    }
+
+    componentDidMount(){
+        let tools = this._tools;
+        let $ = window.$;
+        $(tools).children().each((i, l) => {
+            $(l).draggable({helper: "clone"});
+        });
     }
 
     dragField(e, types){
