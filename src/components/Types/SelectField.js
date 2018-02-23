@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as _ from "lodash";
 
 class SelectField extends Component {
     constructor(props){
@@ -18,9 +19,11 @@ class SelectField extends Component {
                 min : 6,
                 max : 6
             },
-            options : []
+            options : [],
+            duplicate : false
         }
         this.changeValue = this.changeValue.bind(this);
+        this.removeOption = this.removeOption.bind(this);
     }
 
     changeValue(stateFor, value){
@@ -66,7 +69,7 @@ class SelectField extends Component {
     render() {
         return (
             <div className="card card-outline-primary">
-                <div className="card-header">
+                <div className="card-header" style={{ backgroundColor : '#cc8555' }}>
                     Select Field { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
@@ -172,6 +175,7 @@ class SelectField extends Component {
                     </div>
                     <div hidden={this.state.tab !== 'options'} className="options">
                         <div className="card-body">
+                            <p hidden={!this.state.duplicate} className="alert text-center alert-danger"><strong>Duplicate</strong> Values Found</p>
                             {
                                 this.state.options ?
                                     <table className='table text-center'>
@@ -189,11 +193,12 @@ class SelectField extends Component {
                                                                        type='checkbox' />
                                                                 }
                                                             </div>
-                                                        </td> : <td></td>
+                                                        </td> : <td style={{ display : 'none' }}></td>
                                                     }
                                                     <td>
                                                         <input
                                                             placeholder='Title'
+                                                            autoFocus={true}
                                                             onChange={(e) => this.changeOptionValue(index, e.target.value, "TITLE")}
                                                             id={option.title}
                                                             type='text'
@@ -216,6 +221,9 @@ class SelectField extends Component {
                                                                 type='radio'/>
                                                         </td> : <td></td>
                                                     }
+                                                    <td style={{ verticalAlign : 'middle' }}>
+                                                       <span onClick={() => this.removeOption(index)} className="cross pull-right">x</span>
+                                                    </td>
                                                 </tr>
                                         )
                                      }) }
@@ -231,6 +239,17 @@ class SelectField extends Component {
                 </div>
             </div>
         );
+    }
+
+    removeOption(index){
+        let options = this.state.options;
+        delete options[index];
+        this.setState({
+            options : options
+        });
+        setTimeout(() => {
+            return this.props.changeState(this.state, this.props.index);
+        }, 0)
     }
 
     changeOptionValue(index, value, state){
@@ -265,9 +284,26 @@ class SelectField extends Component {
                 options : options
             });
         }
+
+        this.duplicates();
+
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
         }, 0)
+    }
+
+    duplicates(){
+        let options = this.state.options;
+        let u = _.uniqBy(options, 'value');
+        if(!_.isEqual(options, u)){
+            this.setState({
+                duplicate: true
+            });
+        }else{
+            this.setState({
+                duplicate: false
+            });
+        }
     }
 
     addOption(){

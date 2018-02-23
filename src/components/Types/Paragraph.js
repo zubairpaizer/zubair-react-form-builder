@@ -57,7 +57,7 @@ class Paragraph extends Component{
         return (
             <div className="paragraph">
                 <div className="card">
-                    <div className="card-header">
+                    <div className="card-header"  style={{ backgroundColor : '#4ba6cc' }}>
                         Paragraph { this.state.title }
                         <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                     </div>

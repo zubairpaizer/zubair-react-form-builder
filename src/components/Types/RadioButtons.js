@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as _ from "lodash";
 
 class RadioButtons extends Component {
     constructor(props) {
@@ -17,8 +18,10 @@ class RadioButtons extends Component {
                 isRequired: false,
                 min : 6,
                 max : 6
-            }
+            },
+            duplicate : false
         }
+        this.removeOption = this.removeOption.bind(this);
     }
 
     changeValue(stateFor, value){
@@ -58,10 +61,22 @@ class RadioButtons extends Component {
         }, 0)
     }
 
+    removeOption(index){
+        let radios = this.state.radios;
+        delete radios[index];
+        this.setState({
+            checkBoxes : radios
+        });
+        this.duplicates();
+        setTimeout(() => {
+            return this.props.changeState(this.state, this.props.index);
+        }, 0)
+    }
+
     render(){
         return(
             <div className="card card-outline-primary">
-                <div className="card-header">
+                <div className="card-header"  style={{ backgroundColor : '#ccc062' }}>
                     Radio Buttons { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
@@ -174,6 +189,7 @@ class RadioButtons extends Component {
                     </div>
                     <div hidden={this.state.tab !== 'options'} className="options">
                         <div className="card-body">
+                            <p hidden={!this.state.duplicate} className="alert text-center alert-danger"><strong>Duplicate</strong> Values Found</p>
                             {
                                 this.state.radios ?
                                     <table className='table text-center'>
@@ -191,11 +207,12 @@ class RadioButtons extends Component {
                                                                             type='checkbox' />
                                                                     }
                                                                 </div>
-                                                            </td> : <td></td>
+                                                            </td> : <td hidden={true}></td>
                                                         }
                                                         <td>
                                                             <input
                                                                 placeholder='Title'
+                                                                autoFocus={true}
                                                                 onChange={(e) => this.changeOptionValue(index, e.target.value, "TITLE")}
                                                                 id={checkbox.title}
                                                                 type='text'
@@ -216,8 +233,11 @@ class RadioButtons extends Component {
                                                                     onChange={(e) => this.changeOptionValue(index, e.target.checked, "DEFAULT_VALUE")}
                                                                     id={checkbox.value}
                                                                     type='radio'/>
-                                                            </td> : <td></td>
+                                                            </td> : <td hidden={true}></td>
                                                         }
+                                                        <td style={{ verticalAlign : 'middle' }}>
+                                                            <span onClick={() => this.removeOption(index)} className="cross pull-right">x</span>
+                                                        </td>
                                                     </tr>
                                                 )
                                             }) }
@@ -263,9 +283,26 @@ class RadioButtons extends Component {
         this.setState({
             options : options
         });
+
+        this.duplicates();
+
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
         }, 0)
+    }
+
+    duplicates(){
+        let radios = this.state.radios;
+        let u = _.uniqBy(radios, 'value');
+        if(!_.isEqual(radios, u)){
+            this.setState({
+                duplicate: true
+            });
+        }else{
+            this.setState({
+                duplicate: false
+            });
+        }
     }
 
     addOption(){
@@ -279,6 +316,7 @@ class RadioButtons extends Component {
         this.setState({
             options : radios
         });
+        this.duplicates();
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
         }, 0)

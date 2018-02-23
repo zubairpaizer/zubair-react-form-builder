@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as _ from 'lodash';
 
 class CheckBoxes extends Component {
     constructor(props) {
@@ -16,8 +17,12 @@ class CheckBoxes extends Component {
                 isRequired: false,
                 min : 6,
                 max : 6
-            }
+            },
+            duplicate : false
         }
+        this.removeOption = this.removeOption.bind(this);
+        this.duplicates = this.duplicates.bind(this);
+
     }
 
     changeValue(stateFor, value){
@@ -57,7 +62,7 @@ class CheckBoxes extends Component {
     render(){
         return(
             <div className="card card-outline-primary">
-                <div className="card-header">
+                <div className="card-header" style={{ backgroundColor : '#585ccc' }}>
                     Check Boxes { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
@@ -93,17 +98,7 @@ class CheckBoxes extends Component {
                             </div>
                             <hr />
                             <div className="row">
-                                <div className="col-6">
-                                    <div className="form-group">
-                                        <label htmlFor="title">Default</label>
-                                        <input type="text"
-                                               value={this.state.defaultValue}
-                                               onChange={(e) => this.changeValue("DEFAULT_VALUE", e.target.value)}
-                                               placeholder='Default Value'
-                                               className='form-control' />
-                                    </div>
-                                </div>
-                                <div className="col-6">
+                                <div className="col-12">
                                     <div className="form-group">
                                         <label htmlFor="title">Label Title</label>
                                         <input type="text"
@@ -177,6 +172,7 @@ class CheckBoxes extends Component {
                     </div>
                     <div hidden={this.state.tab !== 'options'} className="options">
                         <div className="card-body">
+                            <p hidden={!this.state.duplicate} className="alert text-center alert-danger"><strong>Duplicate</strong> Values Found</p>
                             {
                                 this.state.checkBoxes ?
                                     <table className='table text-center'>
@@ -188,6 +184,7 @@ class CheckBoxes extends Component {
                                                         <td>
                                                             <div className="checkbox">
                                                                 <input
+                                                                    autoFocus={true}
                                                                     onChange={(e) => this.changeOptionValue(index, e.target.checked, "SELECTED")}
                                                                     type='checkbox' />
                                                             </div>
@@ -195,6 +192,7 @@ class CheckBoxes extends Component {
                                                         <td>
                                                             <input
                                                                 placeholder='Title'
+                                                                autoFocus={true}
                                                                 onChange={(e) => this.changeOptionValue(index, e.target.value, "TITLE")}
                                                                 id={checkbox.title}
                                                                 type='text'
@@ -207,6 +205,9 @@ class CheckBoxes extends Component {
                                                                 id={checkbox.value}
                                                                 type='text'
                                                                 className='form-control' />
+                                                        </td>
+                                                        <td style={{ verticalAlign : 'middle' }}>
+                                                            <span onClick={() => this.removeOption(index)} className="cross pull-right">x</span>
                                                         </td>
                                                     </tr>
                                                 )
@@ -248,6 +249,35 @@ class CheckBoxes extends Component {
         this.setState({
             options : options
         });
+
+        this.duplicates();
+
+        setTimeout(() => {
+            return this.props.changeState(this.state, this.props.index);
+        }, 0)
+    }
+
+    duplicates(){
+        let checkBoxes = this.state.checkBoxes;
+        let u = _.uniqBy(checkBoxes, 'value');
+        if(!_.isEqual(checkBoxes, u)){
+            this.setState({
+                duplicate: true
+            });
+        }else{
+            this.setState({
+                duplicate: false
+            });
+        }
+    }
+
+    removeOption(index){
+        let checkBoxes = this.state.checkBoxes;
+        delete checkBoxes[index];
+        this.setState({
+            checkBoxes : checkBoxes
+        });
+        this.duplicates();
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
         }, 0)
@@ -264,6 +294,7 @@ class CheckBoxes extends Component {
         this.setState({
             options : checkBoxes
         });
+        this.duplicates();
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
         }, 0)

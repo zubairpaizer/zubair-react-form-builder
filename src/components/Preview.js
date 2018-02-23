@@ -33,45 +33,56 @@ class Preview extends Component{
             if(field.type === 'Textarea') {
                 return (
                     <div key={index} className="form-group">
-                        <label htmlFor={field.title}>{field.title}</label>
+                        <label className="label" htmlFor={field.title}>{field.title}</label>
                         <textarea value={field.defaultValue} placeholder={field.placeholder} className="form-control"
                                   type={field.type} readOnly={field.validation.isReadOnly}
-                                  required={field.validation.isRequired}></textarea>
+                                  required={field.validation.isRequired} />
+                        <hr />
                     </div>
                 );
             }else{
                 return (
                     <div key={index} className="form-group">
-                        <label htmlFor={field.title}>{field.title}</label>
+                        <label className="label" htmlFor={field.title}>{field.title}</label>
                         <input value={field.defaultValue} placeholder={field.placeholder} className="form-control"
                                type={field.type} readOnly={field.validation.isReadOnly} required={field.validation.isRequired}/>
+                        <hr />
                     </div>
                 );
             }
         }else if(field.toolType === 'SELECT_FIELD'){
             return (
             <div key={index} className="form-group">
-                <label htmlFor={field.title}>{field.title}</label>
-                <select value={field.defaultValue}
-                        className='form-control'
-                        multiple={field.multiple}>
-                    {
-                        field.options.map((option, index) => {
-                          return option.selected ?
-                              <option
-                              selected={option.selected}
-                              key={index} value={option.value}>{option.title}</option>
-                              :  <option
-                                  key={index} value={option.value}>{option.title}</option>
-                        })
-                    }
-                </select>
+                <label className="label" htmlFor={field.title}>{field.title}</label>
+                {
+                    field.multiple ?
+                        <select className='form-control' multiple={field.multiple}>
+                            {
+                                field.options.map((option, index) => {
+                                    return option.selected ?
+                                        <option
+                                            selected={option.selected}
+                                            key={index} value={option.value}>{option.title}</option>
+                                        :  <option key={index} value={option.value}>{option.title}</option>
+                                })
+                            }
+                        </select>
+                        :
+                        <select className='form-control' value={field.defaultValue}>
+                            {
+                                field.options.map((option, index) => {
+                                    return <option key={index} value={option.value}>{option.title}</option>
+                                })
+                            }
+                        </select>
+                }
+                <hr />
             </div>
             )
         }else if(field.toolType === 'CHECK_BOXES'){
             return (
                 <div key={index} className="radios">
-                    <label htmlFor="">{ field.title }</label>
+                    <label className="label" htmlFor="">{ field.title }</label>
                     {
                         field.checkBoxes.map((checkbox, index) => {
                             return(
@@ -89,12 +100,13 @@ class Preview extends Component{
                             )
                         })
                     }
+                    <hr />
                 </div>
             )
         }else if(field.toolType === 'RADIO_BUTTONS'){
             return (
                <div key={index} className="radios">
-                    <label htmlFor="">{ field.title }</label>
+                   <label className="label" htmlFor="">{ field.title }</label>
                    <div className="radios-buttons">
                         {
                             field.radios.map((radio, index) => {
@@ -106,7 +118,7 @@ class Preview extends Component{
                                             type="radio"
                                             checked={radio.selected || index === field.defaultValue}
                                             value={radio.selected}
-                                            id={radio.selected} />
+                                            id={radio.value} />
                                         <label className="form-check-label" htmlFor={radio.value}>
                                             {radio.title}
                                         </label>
@@ -115,15 +127,17 @@ class Preview extends Component{
                             })
                         }
                    </div>
-              </div>
+                   <hr />
+               </div>
             )
         }else if(field.toolType === "PARAGRAPH"){
             return (
                 <div key={index} className="paragraph">
-                    <span hidden={field.title === ""} >{ field.title }</span>
+                    <label className="label" hidden={field.title === ""} >{ field.title }</label>
                     <p className="p-2" style={{ textAlign : field.align, backgroundColor : field.backgroundColor, color : field.textColor }}>
                         {field.content}
                     </p>
+                    <hr />
                 </div>
             )
         }

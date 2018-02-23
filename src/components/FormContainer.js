@@ -12,22 +12,36 @@ class FormContainer extends Component {
         this.state = {
             dragActive : false,
             fields : [],
+            orders : []
         }
         this.catchField = this.catchField.bind(this);
+        this.resetStateOrder = this.resetStateOrder.bind(this);
     }
+
+    resetStateOrder(){
+        let order = [];
+        let $ = window.$;
+        let self = this;
+        let list = this.tooList;
+        let states = self.state.fields;
+        $(list).children().each((i, l) => {
+            let index = $(l).attr('data-index');
+            order.push(states[index]);
+        });
+        self.setState({
+            orders : order
+        });
+    }
+
     render() {
         return (
-            <div className='toolbox'
-                 ref={(c) => this._toolBoxContainer = c}
-                 onDragOver={(e) => this.allowDrop(e)}
-                 onDrop={(e) => this.catchField(e)}
-                 onDragLeave={() => this.setState({dragActive : false})}>
-                <Preview fields={this.state.fields} id='previewModal' />
+            <div className='toolbox' ref={(c) => this._toolBoxContainer = c}>
+                <Preview fields={this.state.orders} id='previewModal' />
                 <div className="card card-default">
                     <div className="card-header">
                         <span className="pull-left">Form Container</span>
                         <div className="actions pull-right">
-                            <button data-toggle="modal" data-target="#previewModal" className="btn btn-sm btn-dark">Preview</button>
+                            <button onClick={() => this.resetStateOrder()} data-toggle="modal" data-target="#previewModal" className="btn btn-sm btn-dark">Preview</button>
                         </div>
                     </div>
                     <div className={ this.state.dragActive ? 'dragActive card-body' : 'card-body'}>
@@ -56,7 +70,9 @@ class FormContainer extends Component {
             $( toolBoxContainer ).droppable({
                 drop: function( event, ui ) {
                     let tool = $(ui.draggable[0]).attr('data-tool');
-                    self.catchField(tool);
+                    if(tool !== undefined){
+                        self.catchField(tool);
+                    }
                 },
                 over : function (event, ui) {
                     self.setState({
@@ -70,17 +86,15 @@ class FormContainer extends Component {
                 }
             });
             $( list ).sortable({
-                update: function( event, ui ) {
-                    let order = [];
-                    $(list).children().each((i, l) => {
-                        let index = $(l).attr('data-index');
-                        order.push(self.state.fields[index]);
-                    });
+                update : function(event, ui){
                     self.setState({
-                        fields : order
-                    });
-                    console.log(self.state);
-                    console.log(order);
+                        dragActive : false,
+                    })
+                },
+                out : function(event, ui){
+                    self.setState({
+                        dragActive : false,
+                    })
                 }
             });
             $( list ).disableSelection();
@@ -154,13 +168,6 @@ class FormContainer extends Component {
         delete fields[indexR];
         this.setState({
             fields : fields
-        });
-    }
-
-    allowDrop(e){
-        e.preventDefault();
-        this.setState({
-           dragActive : true
         });
     }
 

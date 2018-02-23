@@ -62,7 +62,7 @@ class SingleField extends Component{
     render(){
         return(
             <div className="card card-outline-primary">
-                <div className="card-header">
+                <div className="card-header"  style={{ backgroundColor : '#9fcc4a' }}>
                     Single Field { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
