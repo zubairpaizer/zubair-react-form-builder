@@ -3,38 +3,63 @@ import ToolBox from './components/ToolBox';
 import FormContainer from './components/FormContainer';
 import './css/App.css';
 
-let Tools = [
-    {
-        title : 'Single Field',
-        name : 'SINGLE_FIELD',
-        icon : 'fa fa-wpforms'
-    },
-    {
-        title : 'Drop Down',
-        name : 'SELECT_FIELD',
-        icon : 'fa fa-chevron-circle-down'
-    },
-    {
-        title : 'Check Boxes',
-        name : 'CHECK_BOXES',
-        icon : 'fa fa-check-square'
-    },
-    {
-        title : 'Radio Buttons',
-        name : 'RADIO_BUTTONS',
-        icon : 'fa fa-circle'
-    },
-    {
-        title : 'Paragraph',
-        name : 'PARAGRAPH',
-        icon : 'fa fa-paragraph'
-    },
-    {
-        title : 'Duration Picker',
-        name : 'DURATION_PICKER',
-        icon : 'fa fa-calendar'
+class Ahsan extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            num1 : 1,
+            num2 : 2
+        }
     }
-];
+    render(){
+        return <h1>Ahsan</h1>
+    }
+}
+
+
+class CustomComponent extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            num1 : 1,
+            num2 : 2
+        }
+    }
+    render(){
+        return <h1>Custom</h1>
+    }
+}
+
+let customs = [
+    {
+        container : <CustomComponent />,
+        preview : <Ahsan />,
+        toolbox : {
+            title : 'Component',
+            icon : 'fa fa-user',
+            name : 'CUSTOM_COM'
+        },
+        states : {
+            toolType: 'CUSTOM_COM',
+            num1 : 1,
+            num2 : 2
+        }
+    },
+    {
+        container : <Ahsan />,
+        preview : <CustomComponent />,
+        toolbox : {
+            title : 'Ahsan',
+            icon : 'fa fa-user',
+            name : 'ASHAN'
+        },
+        states : {
+            toolType: 'AHSAN',
+            num1 : 1,
+            num2 : 2
+        }
+    }
+]
 
 class App extends Component {
   render() {
@@ -43,10 +68,10 @@ class App extends Component {
         <div className="container">
             <div className="row">
                 <div className="col-md-8">
-                    <FormContainer />
+                    <FormContainer custom={customs} />
                 </div>
                 <div className="col-md-4">
-                    <ToolBox tools={Tools} />
+                    <ToolBox custom={customs} />
                 </div>
             </div>
         </div>

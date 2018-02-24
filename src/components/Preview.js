@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import $ from "jquery";
 
 class Preview extends Component{
-
-
     render(){
         return(
             <div className="modal fade" id={this.props.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -47,6 +45,17 @@ class Preview extends Component{
     }
 
     renderField(field, index){
+        if(this.props.previews) {
+            let Preview = this.props.previews.filter((tool) => {
+                if (tool.states.toolType == field.toolType) {
+                    return tool;
+                }
+            })[0];
+            if (Preview) {
+                return <div key={index}>{Preview.preview}</div>
+            }
+        }
+
         if(field.toolType === 'SINGLE_FIELD') {
             if(field.type === 'Textarea') {
                 return (
@@ -164,18 +173,15 @@ class Preview extends Component{
             return (
                 <div key={index} className="datetimepicker">
                     <label className="label m-0">{ field.title }</label>
-                    <i className="fa fa-arrow-right" style={{ display: 'block',
-                        position: 'relative',
-                        left: '49%',
-                        top: '58px' }}></i>
+                    <i className="fa fa-arrow-right" style={{ display: 'block',position: 'relative',left: '49%',top: '58px' }} />
                     <div className="row">
                         <div className="col-6 m-0">
                             <label className="label">{ field.titleFrom }</label>
-                            <input className="date_time_picker form-control" type="text"/>
+                            <input placeholder="XX/XX/XXXX XX:XX XX" className="date_time_picker form-control" type="text"/>
                         </div>
                         <div className="col-6 m-0">
                             <label className="label">{ field.titleTo }</label>
-                            <input className="date_time_picker form-control" type="text"/>
+                            <input placeholder="XX/XX/XXXX XX:XX XX" className="date_time_picker form-control" type="text"/>
                         </div>
                     </div>
                     <hr />
