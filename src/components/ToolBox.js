@@ -1,6 +1,51 @@
 import React, { Component } from 'react';
-
+let Tools = [
+    {
+        title : 'Single Field',
+        name : 'SINGLE_FIELD',
+        icon : 'fa fa-wpforms'
+    },
+    {
+        title : 'Drop Down',
+        name : 'SELECT_FIELD',
+        icon : 'fa fa-chevron-circle-down'
+    },
+    {
+        title : 'Check Boxes',
+        name : 'CHECK_BOXES',
+        icon : 'fa fa-check-square'
+    },
+    {
+        title : 'Radio Buttons',
+        name : 'RADIO_BUTTONS',
+        icon : 'fa fa-circle'
+    },
+    {
+        title : 'Paragraph',
+        name : 'PARAGRAPH',
+        icon : 'fa fa-paragraph'
+    },
+    {
+        title : 'Duration Picker',
+        name : 'DURATION_PICKER',
+        icon : 'fa fa-calendar'
+    }
+];
 class ToolBox extends Component {
+
+    constructor(props){
+        super(props);
+    }
+
+
+    componentWillMount(){
+    }
+
+    renderCustoms(){
+        let customs = this.props.custom;
+        return customs[0].component;
+    }
+
     render() {
         return (
             <div className="toolbox">
@@ -11,14 +56,18 @@ class ToolBox extends Component {
                     <div className="card-body toolbox-list p-0">
                         <ul className="list-group" ref={(tools) => this._tools = tools}>
                             {
-                                this.props.tools.map((types) => {
+                                Tools.map((types) => {
                                     return <li data-tool={types.name}
-                                               onDragStart={(e) => this.dragField(e, types.name)} key={types.name}
+                                               onDragStart={(e) => this.dragField(e, types.name)}
+                                               key={types.name}
                                                className='list-group-item singleField'>
                                         <i className={types.icon + " mr-3"}></i>
                                         {types.title}
                                         </li>
                                 })
+                            }
+                            {
+                                this.renderCustomTools()
                             }
                         </ul>
                     </div>
@@ -28,6 +77,20 @@ class ToolBox extends Component {
                 </div>
             </div>
         );
+    }
+
+    renderCustomTools(){
+        if(this.props.custom) {
+            return this.props.custom.map((types) => {
+                return <li data-tool={types.toolbox.name}
+                           onDragStart={(e) => this.dragField(e, types.toolbox.name)}
+                           key={types.toolbox.name}
+                           className='list-group-item singleField'>
+                    <i className={types.toolbox.icon + " mr-3"}/>
+                    {types.toolbox.title}
+                </li>
+            })
+        }
     }
 
     componentDidMount(){

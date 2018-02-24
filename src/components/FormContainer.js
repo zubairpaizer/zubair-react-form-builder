@@ -39,7 +39,7 @@ class FormContainer extends Component {
     render() {
         return (
             <div className='toolbox' ref={(c) => this._toolBoxContainer = c}>
-                <Preview fields={this.state.orders} id='previewModal' />
+                <Preview previews={ this.props.custom } fields={this.state.orders} id='previewModal' />
                 <div className="card card-default">
                     <div className="card-header">
                         <span className="pull-left">Form Container</span>
@@ -114,6 +114,17 @@ class FormContainer extends Component {
     }
 
     renderTool(field, index){
+        if(this.props.custom) {
+            let Component = this.props.custom.filter((tool) => {
+                if (tool.states.toolType == field.toolType) {
+                    return tool;
+                }
+            })[0];
+
+            if (Component) {
+                return Component.container;
+            }
+        }
         if(field.toolType === 'SELECT_FIELD'){
             return (
                     <SelectField changeState={(e, index) => this.changeChildState(e, index)}
@@ -183,6 +194,24 @@ class FormContainer extends Component {
     }
 
     catchField(data){
+        if(this.props.custom) {
+            let toolItem = this.props.custom.filter((tool) => {
+                if (tool.toolbox.name === data) {
+                    return tool;
+                }
+            })[0];
+
+            if (toolItem) {
+                let fields = this.state.fields;
+                fields.push(toolItem.states);
+                this.setState({
+                    dragActive: false,
+                    fields: fields
+                });
+                return;
+            }
+        }
+
         let tools = ["SINGLE_FIELD", "SELECT_FIELD", "CHECK_BOXES", "RADIO_BUTTONS", "PARAGRAPH", "DURATION_PICKER"];
         if(tools.indexOf(data) === -1){
             this.setState({
