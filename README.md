@@ -1,8 +1,11 @@
 # Zubair React From Builder
+<<<<<<< HEAD
 ![](zrfb-screenshot-1.png)
 
 
 ![](zrfb-screenshot-2.png)
+=======
+>>>>>>> f30801876282dd165c80e5bcf958e6b570cc57f1
 You can pass custom components to the form builder
 <pre>
 const myCustoms = [
