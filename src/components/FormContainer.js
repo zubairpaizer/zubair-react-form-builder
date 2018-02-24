@@ -5,6 +5,9 @@ import CheckBoxes from './Types/CheckBoxes';
 import Preview from './Preview';
 import RadioButtons from "./Types/RadioButtons";
 import Paragraph from "./Types/Paragraph";
+import DurationPicker from "./Types/DurationPicker";
+import $ from "jquery";
+
 
 class FormContainer extends Component {
     constructor(props){
@@ -152,6 +155,14 @@ class FormContainer extends Component {
                            index={index}
                            removeField={() => this.remove(index)} />
             )
+        }else if(field.toolType === 'DURATION_PICKER'){
+            return (
+                <DurationPicker changeState={(e, index) => this.changeChildState(e, index)}
+                             field={field}
+                             index={index}
+                             key={index}
+                             removeField={() => this.remove(index)} />
+            )
         }
     }
 
@@ -172,11 +183,12 @@ class FormContainer extends Component {
     }
 
     catchField(data){
-        let tools = ["SINGLE_FIELD", "SELECT_FIELD", "CHECK_BOXES", "RADIO_BUTTONS", "PARAGRAPH"];
+        let tools = ["SINGLE_FIELD", "SELECT_FIELD", "CHECK_BOXES", "RADIO_BUTTONS", "PARAGRAPH", "DURATION_PICKER"];
         if(tools.indexOf(data) === -1){
             this.setState({
                 dragActive : false,
             });
+            console.log(data);
             return;
         }
         var meta = {};
@@ -185,6 +197,23 @@ class FormContainer extends Component {
                 title : 'Title',
                 type : 'Text',
                 toolType : 'SINGLE_FIELD',
+                defaultValue : '',
+                placeholder : '',
+                description : '',
+                validation : {
+                    isReadOnly: false,
+                    isRequired: false,
+                    min : 6,
+                    max : 6
+                }
+            }
+        }else if(data === 'DURATION_PICKER'){
+            meta = {
+                titleTo : 'Title',
+                titleFrom : 'Title',
+                title : 'Title',
+                type : 'DURATION',
+                toolType : 'DURATION_PICKER',
                 defaultValue : '',
                 placeholder : '',
                 description : '',

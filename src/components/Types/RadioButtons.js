@@ -64,9 +64,16 @@ class RadioButtons extends Component {
     removeOption(index){
         let radios = this.state.radios;
         delete radios[index];
-        this.setState({
-            checkBoxes : radios
+        var filtered = radios.filter(function(sub) {
+            if(sub.value !== undefined){
+                return sub;
+            }
         });
+        this.setState({
+            radios : filtered
+        });
+
+        console.log(filtered);
         this.duplicates();
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
@@ -77,7 +84,7 @@ class RadioButtons extends Component {
         return(
             <div className="card card-outline-primary">
                 <div className="card-header"  style={{ backgroundColor : '#ccc062' }}>
-                    Radio Buttons { this.state.title }
+                    <i className="fa fa-circle mr-1"></i> Radio Buttons { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
                 <div className="card-body">

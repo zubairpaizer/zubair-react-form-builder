@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import $ from "jquery";
 
 class Preview extends Component{
+
+
     render(){
         return(
             <div className="modal fade" id={this.props.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -26,6 +29,21 @@ class Preview extends Component{
                 </div>
             </div>
         )
+    }
+
+    componentWillReceiveProps(){
+        setTimeout(() => {
+            console.log('CallED');
+            $('.date_time_picker').datetimepicker({
+                timeFormat: "hh:mm tt"
+            });
+            $('input[type="time"]').attr('type', 'text').attr('class', 'time_picker form-control');
+            $('input[type="date"]').attr('type', 'text').attr('class', 'date_picker form-control');
+            $('.time_picker').timepicker({
+                timeFormat: "hh:mm tt"
+            });
+            $('.date_picker').datepicker();
+        }, 0)
     }
 
     renderField(field, index){
@@ -83,23 +101,25 @@ class Preview extends Component{
             return (
                 <div key={index} className="radios">
                     <label className="label" htmlFor="">{ field.title }</label>
-                    {
-                        field.checkBoxes.map((checkbox, index) => {
-                            return(
-                                <div key={index} className={ field.inline ? "form-check-inline" : "form-check"}>
-                                    <input
-                                        name={checkbox.value}
-                                        checked={checkbox.selected}
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        id={checkbox.value} />
-                                    <label className="form-check-label" htmlFor={checkbox.value}>
-                                        {checkbox.title}
-                                    </label>
-                                </div>
-                            )
-                        })
-                    }
+                    <div>
+                        {
+                            field.checkBoxes.map((checkbox, index) => {
+                                return(
+                                    <div key={index} className={ field.inline ? "form-check-inline" : "form-check"}>
+                                        <input
+                                            name={checkbox.value}
+                                            checked={checkbox.selected}
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            id={checkbox.value} />
+                                        <label className="form-check-label" htmlFor={checkbox.value}>
+                                            {checkbox.title}
+                                        </label>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                     <hr />
                 </div>
             )
@@ -140,8 +160,28 @@ class Preview extends Component{
                     <hr />
                 </div>
             )
+        }else if(field.toolType === "DURATION_PICKER"){
+            return (
+                <div key={index} className="datetimepicker">
+                    <label className="label m-0">{ field.title }</label>
+                    <i className="fa fa-arrow-right" style={{ display: 'block',
+                        position: 'relative',
+                        left: '49%',
+                        top: '58px' }}></i>
+                    <div className="row">
+                        <div className="col-6 m-0">
+                            <label className="label">{ field.titleFrom }</label>
+                            <input className="date_time_picker form-control" type="text"/>
+                        </div>
+                        <div className="col-6 m-0">
+                            <label className="label">{ field.titleTo }</label>
+                            <input className="date_time_picker form-control" type="text"/>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            )
         }
-
     }
 }
 

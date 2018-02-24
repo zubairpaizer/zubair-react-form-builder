@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 var InputTypes = [ 'Checkbox', 'Color', 'Date', 'Email', 'File',
     'Month', 'Number', 'Password', 'Radio', 'Range', 'Search', 'Tel', 'Text', 'Time', 'Url', 'Week', 'Textarea'];
-class SingleField extends Component{
+class DurationPicker extends Component{
     constructor(props){
         super(props);
         this.state = {
             tab : '',
             title : '',
-            type : 'Text',
-            toolType : 'SINGLE_FIELD',
+            titleFrom : '',
+            titleTo : '',
+            type : 'DURATION',
+            toolType : 'DURATION_PICKER',
             defaultValue : '',
             placeholder : '',
             description : '',
             validation : {
                 isReadOnly: false,
                 isRequired: false,
-                min : 6,
-                max : 6
             }
         }
         this.changeValue = this.changeValue.bind(this);
@@ -27,8 +27,11 @@ class SingleField extends Component{
             case "TITLE" :
                 this.setState( { title : value } )
                 break;
-            case "PLACEHOLDER" :
-                this.setState( { placeholder : value } )
+            case "TITLE_FROM" :
+                this.setState( { titleFrom : value } )
+                break;
+            case "TITLE_TO" :
+                this.setState( { titleTo : value } )
                 break;
             case "TYPE" :
                 this.setState( { type : value } )
@@ -45,12 +48,6 @@ class SingleField extends Component{
             case "IS_READONLY" :
                 this.setState( { validation : { ...this.state.validation, isReadOnly : value }})
                 break;
-            case "MAX" :
-                this.setState( { validation : { ...this.state.validation, max : value }})
-                break;
-            case "MIN" :
-                this.setState( { validation : { ...this.state.validation, min : value }})
-                break;
             default:
                 return;
         };
@@ -62,8 +59,8 @@ class SingleField extends Component{
     render(){
         return(
             <div className="card card-outline-primary">
-                <div className="card-header"  style={{ backgroundColor : '#9fcc4a' }}>
-                    <i className="fa fa-wpforms mr-1"></i> Single Field { this.state.title }
+                <div className="card-header"  style={{ backgroundColor : '#29b6cc' }}>
+                    <i className="fa fa-calendar"></i> Duration Picker { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
                 <div className="card-body">
@@ -84,52 +81,33 @@ class SingleField extends Component{
                     </ul>
                     <div hidden={this.state.tab !== 'general'} className="general">
                         <div className="card-body">
+                            <div className="form-group">
+                                <label htmlFor="title">Label Title</label>
+                                <input type="text"
+                                       value={this.state.title}
+                                       onChange={(e) => this.changeValue("TITLE", e.target.value)}
+                                       placeholder='Field Label Title' className='form-control' />
+                            </div>
+                            <hr />
                             <div className="row">
                                 <div className="col-6">
                                     <div className="form-group">
-                                        <label htmlFor="title">Type</label>
-                                        <select
-                                            onChange={(e) => this.changeValue("TYPE", e.target.value)}
-                                            className='form-control'
-                                            defaultValue={this.state.type}>
-                                            {
-                                                InputTypes.map((type) => {
-                                                    return <option value={type} key={type}>{ type }</option>
-                                                })
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-6">
-                                    <div className="form-group">
-                                        <label htmlFor="title">Default</label>
+                                        <label htmlFor="title">Title From</label>
                                         <input type="text"
-                                               value={this.state.defaultValue}
-                                               onChange={(e) => this.changeValue("DEFAULT_VALUE", e.target.value)}
-                                               placeholder='Default Value'
+                                               value={this.state.titleFrom}
+                                               onChange={(e) => this.changeValue("TITLE_FROM", e.target.value)}
+                                               placeholder='Title From'
                                                className='form-control' />
                                     </div>
                                 </div>
-                            </div>
-                            <hr />
-
-                            <div className="row">
                                 <div className="col-6">
                                     <div className="form-group">
-                                        <label htmlFor="title">Label Title</label>
+                                        <label htmlFor="title">Title To</label>
                                         <input type="text"
-                                               value={this.state.title}
-                                               onChange={(e) => this.changeValue("TITLE", e.target.value)}
-                                               placeholder='Field Label Title' className='form-control' />
-                                    </div>
-                                </div>
-                                <div className="col-6">
-                                    <div className="form-group">
-                                        <label htmlFor="title">Placeholder</label>
-                                        <input type="text"
-                                               value={this.state.placeholder}
-                                               onChange={(e) => this.changeValue("PLACEHOLDER", e.target.value)}
-                                               placeholder='Field Placeholder' className='form-control' />
+                                               value={this.state.titleTo}
+                                               onChange={(e) => this.changeValue("TITLE_TO", e.target.value)}
+                                               placeholder='Title To'
+                                               className='form-control' />
                                     </div>
                                 </div>
                             </div>
@@ -156,9 +134,9 @@ class SingleField extends Component{
                                     value={this.state.validation.isRequired}
                                     onChange={(e) => this.changeValue("IS_REQUIRED", e.target.checked)}
                                     className="form-check-input" type="checkbox" id="isRequired" />
-                                    <label className="form-check-label" htmlFor="isRequired">
-                                        Required
-                                    </label>
+                                <label className="form-check-label" htmlFor="isRequired">
+                                    Required
+                                </label>
                             </div>
                             <hr />
 
@@ -174,26 +152,6 @@ class SingleField extends Component{
                                 </label>
                             </div>
                             <hr />
-                            <div className="row">
-                                <div className="col-6">
-                                    <div className="form-group">
-                                        <label htmlFor="title">Max Characters</label>
-                                        <input
-                                            value={this.state.validation.max}
-                                            onChange={(e) => this.changeValue("MAX", e.target.value)}
-                                            type="number" placeholder='6' className='form-control' />
-                                    </div>
-                                </div>
-                                <div className="col-6">
-                                    <div className="form-group">
-                                        <label htmlFor="title">Min Characters</label>
-                                        <input
-                                            value={this.state.validation.min}
-                                            onChange={(e) => this.changeValue("MIN", e.target.value)}
-                                            type="number" placeholder='6' className='form-control' />
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -205,4 +163,4 @@ class SingleField extends Component{
     }
 }
 
-export default SingleField;
+export default DurationPicker;

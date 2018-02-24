@@ -70,7 +70,7 @@ class SelectField extends Component {
         return (
             <div className="card card-outline-primary">
                 <div className="card-header" style={{ backgroundColor : '#cc8555' }}>
-                    Select Field { this.state.title }
+                    <i className="fa fa-chevron-circle-down mr-1"></i> Drop Down { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
                 <div className="card-body">
@@ -244,8 +244,13 @@ class SelectField extends Component {
     removeOption(index){
         let options = this.state.options;
         delete options[index];
+        var filtered = options.filter(function(sub) {
+            if(sub.value !== undefined){
+                return sub;
+            }
+        });
         this.setState({
-            options : options
+            options : filtered
         });
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
@@ -317,6 +322,7 @@ class SelectField extends Component {
         this.setState({
            options : options
         });
+        this.duplicates();
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
         }, 0)

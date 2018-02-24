@@ -63,7 +63,7 @@ class CheckBoxes extends Component {
         return(
             <div className="card card-outline-primary">
                 <div className="card-header" style={{ backgroundColor : '#585ccc' }}>
-                    Check Boxes { this.state.title }
+                    <i className="fa fa-check-square mr-1"></i> Check Boxes { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>
                 <div className="card-body">
@@ -274,8 +274,13 @@ class CheckBoxes extends Component {
     removeOption(index){
         let checkBoxes = this.state.checkBoxes;
         delete checkBoxes[index];
+        var filtered = checkBoxes.filter(function(sub) {
+            if(sub.value !== undefined){
+                return sub;
+            }
+        });
         this.setState({
-            checkBoxes : checkBoxes
+            checkBoxes : filtered
         });
         this.duplicates();
         setTimeout(() => {

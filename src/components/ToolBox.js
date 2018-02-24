@@ -14,7 +14,10 @@ class ToolBox extends Component {
                                 this.props.tools.map((types) => {
                                     return <li data-tool={types.name}
                                                onDragStart={(e) => this.dragField(e, types.name)} key={types.name}
-                                               className='list-group-item singleField'>{types.title}</li>
+                                               className='list-group-item singleField'>
+                                        <i className={types.icon + " mr-3"}></i>
+                                        {types.title}
+                                        </li>
                                 })
                             }
                         </ul>
