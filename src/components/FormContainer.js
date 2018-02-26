@@ -122,7 +122,15 @@ class FormContainer extends Component {
             })[0];
 
             if (Component) {
-                return Component.container;
+                let props = {
+                    fields : field,
+                    index : index,
+                    key: index,
+                    changeState : (e, index) => this.changeChildState(e, index),
+                    removeField : () => this.remove(index)
+                }
+                let ClonedComponent = React.cloneElement(Component.container, props);
+                return ClonedComponent;
             }
         }
         if(field.toolType === 'SELECT_FIELD'){
@@ -178,6 +186,7 @@ class FormContainer extends Component {
     }
 
     changeChildState(e, index){
+        console.log(e);
         if (index !== -1) {
             let fields = this.state.fields;
             fields[index] = e;
