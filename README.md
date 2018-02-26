@@ -24,8 +24,16 @@ const myCustoms = [
     }
 ]
 
+
+
 Simply pass myCustoms to
 &lt FormContainer custom={ myCustoms } /&gt
 &lt ToolBox custom={ myCustoms } /&gt
 </pre>
+
+#Required Props Methods Of Component
+
+1. this.props.changeValue(state, this.props.index)
+
+2. this.props.removeField(index)
 

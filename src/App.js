@@ -31,7 +31,6 @@ class TestComponent extends  Component{
         )
     }
 }
-console.log(React);
 
 class TestPreview extends  Component{
     render(){
