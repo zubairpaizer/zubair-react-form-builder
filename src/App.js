@@ -24,7 +24,7 @@ class TestComponent extends  Component{
 
     render(){
         return (
-            <div className="conainer">
+            <div className="container">
                 <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 <input onChange={(e) => this.changeValue(e.target.value)} type="text"/>
             </div>
@@ -34,7 +34,7 @@ class TestComponent extends  Component{
 
 class TestPreview extends  Component{
     render(){
-        return <h3>TestPreview</h3>
+        return <h3>{ this.props.toolType }</h3>
     }
 }
 
@@ -63,15 +63,21 @@ class App extends Component {
         <div className="container">
             <div className="row">
                 <div className="col-md-8">
-                    < FormContainer custom={ myCustoms } />
+                    <FormContainer
+                        onSave={this.myForm}
+                        custom={ myCustoms } />
                 </div>
                 <div className="col-md-4">
-                    < ToolBox custom={ myCustoms } />
+                    <ToolBox custom={ myCustoms } />
                 </div>
             </div>
         </div>
       </div>
     );
+  }
+
+  myForm(form){
+      console.log(form);
   }
 }
 

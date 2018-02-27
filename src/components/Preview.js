@@ -31,7 +31,6 @@ class Preview extends Component{
 
     componentWillReceiveProps(){
         setTimeout(() => {
-            console.log('CallED');
             $('.date_time_picker').datetimepicker({
                 timeFormat: "hh:mm tt"
             });
@@ -45,14 +44,20 @@ class Preview extends Component{
     }
 
     renderField(field, index){
+        if(field === undefined || index === -1){
+            return;
+        }
         if(this.props.previews) {
             let Preview = this.props.previews.filter((tool) => {
-                if (tool.states.toolType == field.toolType) {
+                if (tool.states.toolType === field.toolType) {
                     return tool;
+                }else{
+                    return false;
                 }
             })[0];
             if (Preview) {
-                return <div key={index}>{Preview.preview}</div>
+                let PreviewClonedComponent = React.cloneElement(Preview.preview, field);
+                return <div key={index}> { PreviewClonedComponent } </div>
             }
         }
 

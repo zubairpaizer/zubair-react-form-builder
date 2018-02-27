@@ -9,7 +9,6 @@ class RadioButtons extends Component {
             inline : false,
             multiple : false,
             toolType: "RADIO_BUTTONS",
-            radios : [],
             title : '',
             defaultValue : '',
             description : '',
@@ -19,6 +18,7 @@ class RadioButtons extends Component {
                 min : 6,
                 max : 6
             },
+            radios : [],
             duplicate : false
         }
         this.removeOption = this.removeOption.bind(this);
@@ -63,17 +63,10 @@ class RadioButtons extends Component {
 
     removeOption(index){
         let radios = this.state.radios;
-        delete radios[index];
-        var filtered = radios.filter(function(sub) {
-            if(sub.value !== undefined){
-                return sub;
-            }
-        });
+        radios.splice(index,  1);
         this.setState({
-            radios : filtered
+            radios : radios
         });
-
-        console.log(filtered);
         this.duplicates();
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
@@ -210,6 +203,7 @@ class RadioButtons extends Component {
                                                                 <div className="radio">
                                                                     {
                                                                         <input
+                                                                            value={this.state.radios[index].selected}
                                                                             onChange={(e) => this.changeOptionValue(index, e.target.checked, "SELECTED")}
                                                                             type='checkbox' />
                                                                     }
@@ -220,6 +214,7 @@ class RadioButtons extends Component {
                                                             <input
                                                                 placeholder='Title'
                                                                 autoFocus={true}
+                                                                value={this.state.radios[index].title}
                                                                 onChange={(e) => this.changeOptionValue(index, e.target.value, "TITLE")}
                                                                 id={checkbox.title}
                                                                 type='text'
@@ -228,6 +223,7 @@ class RadioButtons extends Component {
                                                         <td>
                                                             <input
                                                                 placeholder='Value'
+                                                                value={this.state.radios[index].value}
                                                                 onChange={(e) => this.changeOptionValue(index, e.target.value, "VALUE")}
                                                                 id={checkbox.value}
                                                                 type='text'
@@ -237,6 +233,7 @@ class RadioButtons extends Component {
                                                             <td style={{ verticalAlign : 'middle' }}>
                                                                 <input
                                                                     name='default'
+                                                                    value={this.state.defaultValue}
                                                                     onChange={(e) => this.changeOptionValue(index, e.target.checked, "DEFAULT_VALUE")}
                                                                     id={checkbox.value}
                                                                     type='radio'/>
@@ -263,36 +260,39 @@ class RadioButtons extends Component {
     }
 
     changeOptionValue(index, value, state){
-        let options = this.state.options;
-        let option = {};
+        let radios = this.state.radios;
+        let radio = {};
         if(state === "DEFAULT_VALUE"){
             this.setState({
                 defaultValue : index
             })
         }
         if(state === "TITLE"){
-            option = {
-                ...options[index],
-                title : value,
+            radio = {
+                ...radios[index],
+                title: value,
             }
-        }else if(state === 'SELECTED')
-            option = {
-                ...options[index],
-                selected : !options[index].selected
+        }else if(state === 'SELECTED'){
+            radio = {
+                ...radios[index],
+                selected: !radios[index].selected
             }
-        else{
-            option = {
-                ...options[index],
+        }else if(state === 'VALUE'){
+            radio = {
+                ...radios[index],
                 value : value
             }
+        }else{
+            radio = {
+                ...radios[index]
+            }
         }
-        options[index] = option;
+
+        radios[index] = radio;
         this.setState({
-            options : options
+            radios : radios
         });
-
         this.duplicates();
-
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
         }, 0)
@@ -321,7 +321,7 @@ class RadioButtons extends Component {
         let radios = this.state.radios;
         radios.push(radio)
         this.setState({
-            options : radios
+            radios : radios
         });
         this.duplicates();
         setTimeout(() => {
