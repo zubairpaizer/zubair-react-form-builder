@@ -189,16 +189,18 @@ class SelectField extends Component {
                                                             <div className="radio">
                                                                 {
                                                                    <input
+                                                                       value={this.state.options[index].selected}
                                                                        onChange={(e) => this.changeOptionValue(index, e.target.checked, "SELECTED")}
                                                                        type='checkbox' />
                                                                 }
                                                             </div>
-                                                        </td> : <td style={{ display : 'none' }}></td>
+                                                        </td> : <td hidden={true}></td>
                                                     }
                                                     <td>
                                                         <input
                                                             placeholder='Title'
                                                             autoFocus={true}
+                                                            value={this.state.options[index].title}
                                                             onChange={(e) => this.changeOptionValue(index, e.target.value, "TITLE")}
                                                             id={option.title}
                                                             type='text'
@@ -207,6 +209,7 @@ class SelectField extends Component {
                                                     <td>
                                                         <input
                                                             placeholder='Value'
+                                                            value={this.state.options[index].value}
                                                             onChange={(e) => this.changeOptionValue(index, e.target.value, "VALUE")}
                                                             id={option.value}
                                                             type='text'
@@ -216,10 +219,11 @@ class SelectField extends Component {
                                                         <td style={{ verticalAlign : 'middle' }}>
                                                             <input
                                                                 name='default'
+                                                                value={this.state.defaultValue}
                                                                 onChange={(e) => this.changeOptionValue(index, e.target.checked, "DEFAULT_VALUE")}
                                                                 id={option.value}
                                                                 type='radio'/>
-                                                        </td> : <td></td>
+                                                        </td> : <td hidden={true}></td>
                                                     }
                                                     <td style={{ verticalAlign : 'middle' }}>
                                                        <span onClick={() => this.removeOption(index)} className="cross pull-right">x</span>
@@ -243,14 +247,9 @@ class SelectField extends Component {
 
     removeOption(index){
         let options = this.state.options;
-        delete options[index];
-        var filtered = options.filter(function(sub) {
-            if(sub.value !== undefined){
-                return sub;
-            }
-        });
+        options.splice(index, 1);
         this.setState({
-            options : filtered
+            options : options
         });
         setTimeout(() => {
             return this.props.changeState(this.state, this.props.index);
@@ -260,7 +259,6 @@ class SelectField extends Component {
     changeOptionValue(index, value, state){
         let options = this.state.options;
         let option = {};
-        console.log(index, value, state);
 
         if(state === "TITLE"){
             option = {

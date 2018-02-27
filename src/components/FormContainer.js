@@ -6,8 +6,6 @@ import Preview from './Preview';
 import RadioButtons from "./Types/RadioButtons";
 import Paragraph from "./Types/Paragraph";
 import DurationPicker from "./Types/DurationPicker";
-import $ from "jquery";
-
 
 class FormContainer extends Component {
     constructor(props){
@@ -15,8 +13,10 @@ class FormContainer extends Component {
         this.state = {
             dragActive : false,
             fields : [],
-            orders : []
+            orders : [],
+            change : false
         }
+        this.popForm = this.popForm.bind(this);
         this.catchField = this.catchField.bind(this);
         this.resetStateOrder = this.resetStateOrder.bind(this);
     }
@@ -39,12 +39,24 @@ class FormContainer extends Component {
     render() {
         return (
             <div className='toolbox' ref={(c) => this._toolBoxContainer = c}>
-                <Preview previews={ this.props.custom } fields={this.state.orders} id='previewModal' />
+                {
+                    this.props.debug === true ?
+                        <pre>
+                            { JSON.stringify(this.state.orders, null, 2) }
+                        </pre>
+                        :
+                        <span hidden={true}></span>
+                }
+                <Preview
+                    previews={ this.props.custom }
+                    fields={this.state.orders} id='previewModal' />
                 <div className="card card-default">
                     <div className="card-header">
                         <span className="pull-left">Form Container</span>
                         <div className="actions pull-right">
-                            <button onClick={() => this.resetStateOrder()} data-toggle="modal" data-target="#previewModal" className="btn btn-sm btn-dark">Preview</button>
+                            <button data-toggle="modal" data-target="#previewModal" className="btn btn-sm btn-dark">Preview</button>
+                            { ' ' }
+                            <button hidden={!this.props.onSave} onClick={() => this.popForm()} className="btn btn-sm btn-success">Save</button>
                         </div>
                     </div>
                     <div className={ this.state.dragActive ? 'dragActive card-body' : 'card-body'}>
@@ -62,6 +74,17 @@ class FormContainer extends Component {
                 </div>
             </div>
         );
+    }
+
+    popForm(){
+        let states = this.state.orders;
+
+        this.setState({
+            fields : [],
+            orders : []
+        });
+
+        return this.props.onSave(states);
     }
 
     componentDidMount(){
@@ -93,6 +116,7 @@ class FormContainer extends Component {
                     self.setState({
                         dragActive : false,
                     })
+                    self.resetStateOrder();
                 },
                 out : function(event, ui){
                     self.setState({
@@ -116,8 +140,10 @@ class FormContainer extends Component {
     renderTool(field, index){
         if(this.props.custom) {
             let Component = this.props.custom.filter((tool) => {
-                if (tool.states.toolType == field.toolType) {
+                if (tool.states.toolType === field.toolType) {
                     return tool;
+                }else{
+                    return false;
                 }
             })[0];
 
@@ -186,20 +212,22 @@ class FormContainer extends Component {
     }
 
     changeChildState(e, index){
-        console.log(e);
         if (index !== -1) {
             let fields = this.state.fields;
             fields[index] = e;
-            this.setState( { fields : fields } );
+            this.setState( { fields : fields, change : this.state.change });
         }
+        this.resetStateOrder();
     }
 
     remove(indexR){
         let fields = this.state.fields;
-        delete fields[indexR];
+        fields.splice(indexR, 1);
         this.setState({
-            fields : fields
+            fields : fields,
+            change : this.state.change
         });
+         this.resetStateOrder();
     }
 
     catchField(data){
@@ -207,6 +235,8 @@ class FormContainer extends Component {
             let toolItem = this.props.custom.filter((tool) => {
                 if (tool.toolbox.name === data) {
                     return tool;
+                }else{
+                    return false;
                 }
             })[0];
 
@@ -217,6 +247,7 @@ class FormContainer extends Component {
                     dragActive: false,
                     fields: fields
                 });
+                this.resetStateOrder();
                 return;
             }
         }
@@ -226,7 +257,6 @@ class FormContainer extends Component {
             this.setState({
                 dragActive : false,
             });
-            console.log(data);
             return;
         }
         var meta = {};
@@ -331,6 +361,7 @@ class FormContainer extends Component {
             dragActive : false,
             fields : fields
         });
+        this.resetStateOrder();
     }
 }
 

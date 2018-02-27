@@ -8,7 +8,6 @@ class CheckBoxes extends Component {
             tab : '',
             inline : false,
             toolType: "CHECK_BOXES",
-            checkBoxes : [],
             title : '',
             defaultValue : '',
             description : '',
@@ -18,7 +17,8 @@ class CheckBoxes extends Component {
                 min : 6,
                 max : 6
             },
-            duplicate : false
+            duplicate : false,
+            checkBoxes : []
         }
         this.removeOption = this.removeOption.bind(this);
         this.duplicates = this.duplicates.bind(this);
@@ -185,6 +185,7 @@ class CheckBoxes extends Component {
                                                             <div className="checkbox">
                                                                 <input
                                                                     autoFocus={true}
+                                                                    value={this.state.checkBoxes[index].selected}
                                                                     onChange={(e) => this.changeOptionValue(index, e.target.checked, "SELECTED")}
                                                                     type='checkbox' />
                                                             </div>
@@ -193,6 +194,7 @@ class CheckBoxes extends Component {
                                                             <input
                                                                 placeholder='Title'
                                                                 autoFocus={true}
+                                                                value={this.state.checkBoxes[index].title}
                                                                 onChange={(e) => this.changeOptionValue(index, e.target.value, "TITLE")}
                                                                 id={checkbox.title}
                                                                 type='text'
@@ -201,6 +203,7 @@ class CheckBoxes extends Component {
                                                         <td>
                                                             <input
                                                                 placeholder='Value'
+                                                                value={this.state.checkBoxes[index].value}
                                                                 onChange={(e) => this.changeOptionValue(index, e.target.value, "VALUE")}
                                                                 id={checkbox.value}
                                                                 type='text'
@@ -227,27 +230,31 @@ class CheckBoxes extends Component {
     }
 
     changeOptionValue(index, value, state){
-        let options = this.state.options;
-        let option = {};
+        let checkBoxes = this.state.checkBoxes;
+        let checkBox = {};
         if(state === "TITLE"){
-            option = {
-                ...options[index],
+            checkBox = {
+                ...checkBoxes[index],
                 title : value,
             }
-        }else if(state === 'SELECTED')
-            option = {
-                ...options[index],
-                selected : !options[index].selected
+        }else if(state === 'SELECTED'){
+            checkBox = {
+                ...checkBoxes[index],
+                selected: !checkBoxes[index].selected
             }
-        else{
-            option = {
-                ...options[index],
+        }else if(state === 'VALUE'){
+            checkBox = {
+                ...checkBoxes[index],
                 value : value
             }
+        }else{
+            checkBox = {
+                ...checkBoxes[index],
+            }
         }
-        options[index] = option;
+        checkBoxes[index] = checkBox;
         this.setState({
-            options : options
+            checkBoxes : checkBoxes
         });
 
         this.duplicates();
@@ -273,14 +280,9 @@ class CheckBoxes extends Component {
 
     removeOption(index){
         let checkBoxes = this.state.checkBoxes;
-        delete checkBoxes[index];
-        var filtered = checkBoxes.filter(function(sub) {
-            if(sub.value !== undefined){
-                return sub;
-            }
-        });
+        checkBoxes.splice(index, 1);
         this.setState({
-            checkBoxes : filtered
+            checkBoxes : checkBoxes
         });
         this.duplicates();
         setTimeout(() => {
@@ -297,7 +299,7 @@ class CheckBoxes extends Component {
         let checkBoxes = this.state.checkBoxes;
         checkBoxes.push(checkBox)
         this.setState({
-            options : checkBoxes
+            checkBoxes : checkBoxes
         });
         this.duplicates();
         setTimeout(() => {

@@ -32,20 +32,6 @@ let Tools = [
     }
 ];
 class ToolBox extends Component {
-
-    constructor(props){
-        super(props);
-    }
-
-
-    componentWillMount(){
-    }
-
-    renderCustoms(){
-        let customs = this.props.custom;
-        return customs[0].component;
-    }
-
     render() {
         return (
             <div className="toolbox">
