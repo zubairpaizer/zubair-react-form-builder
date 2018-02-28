@@ -4,7 +4,6 @@
   "author": "Zubair Ibrahim <zubair.paizer@hotmail.com>",
   "main": "index.js",
   "dependencies": {
-    "babel": "^6.23.0",
     "bootstrap": "^4.0.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
@@ -17,14 +16,23 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1",
-    "requirejs": "^2.3.5"
   },
+  "keywords": [
+    "zubair-react-form-builder",
+    "react form builder",
+    "react form generator",
+    "react form creator",
+    "zubair react form builder",
+    "form builder",
+    "react form",
+    "form generator"
+  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "transpile": "babel .src/App.js --presets babel-preset-es2015 --out-file lib/App.js"
+    "transpile": "babel src/App.js --presets babel-preset-es2015 --out-file lib/App.js"
   },
   "license": "ISC",
   "devDependencies": {

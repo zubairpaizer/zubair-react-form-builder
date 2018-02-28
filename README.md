@@ -1,5 +1,10 @@
 # React From Builder
 
+## Installation
+<pre>
+  npm i zubair-react-form-builder
+</pre>
+
 ![](zrfb-screenshot-1.png)
 
 ![](zrfb-screenshot-2.png)
@@ -42,4 +47,3 @@ Simply pass myCustoms to
 1. this.props.changeValue(state, this.props.index)
 
 2. this.props.removeField(index)
-
