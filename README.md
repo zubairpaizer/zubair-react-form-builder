@@ -47,3 +47,32 @@ Simply pass myCustoms to
 1. this.props.changeValue(state, this.props.index)
 
 2. this.props.removeField(index)
+
+## Example Props Methods
+
+<pre>
+        // on change state
+        changeValue(stateFor, value){
+            switch (stateFor){
+                case "TITLE" :
+                    this.setState( { title : value } )
+                    break;
+                default:
+                    return;
+            };
+            setTimeout(() => {
+                return this.props.changeState(this.state, this.props.index);
+            }, 0)
+        }
+
+
+        <input
+            value={this.state.value}
+            onChange={(e) => this.changeValue('TITLE', e.target.value)} />
+
+         // on remove field   
+        <span
+            className='pull-right cross'
+            onClick={() => this.props.removeField(this.props.index)}>x</span>
+
+</pre>
