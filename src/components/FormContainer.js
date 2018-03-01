@@ -21,6 +21,17 @@ class FormContainer extends Component {
         this.resetStateOrder = this.resetStateOrder.bind(this);
     }
 
+    componentWillMount(){
+        if(this.props.updateOnMount === true) {
+            this.props.updateForm((form) => {
+                this.setState({
+                    fields : form,
+                    orders : form
+                })
+            });
+        }
+    }
+
     resetStateOrder(){
         let order = [];
         let $ = window.$;

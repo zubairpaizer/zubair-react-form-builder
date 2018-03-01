@@ -64,6 +64,9 @@ class App extends Component {
             <div className="row">
                 <div className="col-md-8">
                     <FormContainer
+                        debug={true}
+                        updateOnMount={true}
+                        updateForm={this.updateForm}
                         onSave={this.myForm}
                         custom={ myCustoms } />
                 </div>
@@ -74,6 +77,12 @@ class App extends Component {
         </div>
       </div>
     );
+  }
+
+  updateForm(callback){
+      let rawForm = '[{"title":"Title","toolType":"RADIO_BUTTONS","multiple":false,"inline":false,"defaultValue":"","placeholder":"","description":"","validation":{"isReadOnly":false,"isRequired":false,"min":6,"max":6},"radios":[]},{"title":"Title","toolType":"CHECK_BOXES","inline":false,"defaultValue":"","placeholder":"","description":"","validation":{"isReadOnly":false,"isRequired":false,"min":6,"max":6},"checkBoxes":[]}]';
+      let form = JSON.parse(rawForm);
+      callback(form);
   }
 
   myForm(form){
