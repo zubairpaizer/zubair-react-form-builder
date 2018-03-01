@@ -1,6 +1,6 @@
 {
   "name": "zubair-react-form-builder",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "Zubair Ibrahim <zubair.paizer@hotmail.com>",
   "main": "lib/index.js",
   "dependencies": {
@@ -39,7 +39,7 @@
     "url": "https://github.com/zubairpaizer/zubair-react-form-builder"
   },
   "bugs": {
-    "url": "https://github.com/SteveVitali/react-form-generator/issues"
+    "url": "https://github.com/zubairpaizer/react-form-generator/issues"
   },
   "homepage": "https://github.com/zubairpaizer/zubair-react-form-builder",
   "license": "MIT",
