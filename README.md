@@ -1,4 +1,4 @@
-[![npm package](https://img.shields.io/badge/npm-1.0.7-green.svg?style=flat-square)](https://www.npmjs.com/package/zubair-react-form-builder)
+[![npm package](https://img.shields.io/badge/npm-1.0.9-green.svg?style=flat-square)](https://www.npmjs.com/package/zubair-react-form-builder)
 [![Build Status](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://www.npmjs.com/package/zubair-react-form-builder)
 
 # Zubair React From Builder
