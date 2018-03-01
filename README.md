@@ -1,4 +1,8 @@
-# React From Builder
+[![npm package](https://img.shields.io/badge/npm-1.0.7-green.svg?style=flat-square)](https://www.npmjs.com/package/zubair-react-form-builder)
+[![Build Status](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://www.npmjs.com/package/zubair-react-form-builder)
+
+# Zubair React From Builder
+Zubair React Form Builder help you to build forms with drag and drop you can also inject your own component.
 
 ## Installation
 <pre>
