@@ -30,12 +30,13 @@ class Preview extends Component{
     }
 
     componentWillReceiveProps(){
+    }
+
+    componentDidUpdate(){
         setTimeout(() => {
             $('.date_time_picker').datetimepicker({
                 timeFormat: "hh:mm tt"
             });
-            $('input[type="time"]').attr('type', 'text').attr('class', 'time_picker form-control');
-            $('input[type="date"]').attr('type', 'text').attr('class', 'date_picker form-control');
             $('.time_picker').timepicker({
                 timeFormat: "hh:mm tt"
             });
@@ -69,8 +70,23 @@ class Preview extends Component{
                         <textarea value={field.defaultValue} placeholder={field.placeholder} className="form-control"
                                   type={field.type} readOnly={field.validation.isReadOnly}
                                   required={field.validation.isRequired} />
-                        <hr />
                     </div>
+                );
+            }else if(field.type === 'Date'){
+                return (
+                    <p key={index} className="form-group">
+                        <label className="label" htmlFor={field.title}>{field.title}</label>
+                        <input value={field.defaultValue} placeholder={field.placeholder} className="date_picker form-control"
+                               type='text' readOnly={field.validation.isReadOnly} required={field.validation.isRequired}/>
+                    </p>
+                );
+            }else if(field.type === "Time"){
+                return (
+                    <p key={index} className="form-group">
+                        <label className="label" htmlFor={field.title}>{field.title}</label>
+                        <input value={field.defaultValue} placeholder={field.placeholder} className="time_picker form-control"
+                               type='text' readOnly={field.validation.isReadOnly} required={field.validation.isRequired}/>
+                    </p>
                 );
             }else{
                 return (
@@ -78,7 +94,6 @@ class Preview extends Component{
                         <label className="label" htmlFor={field.title}>{field.title}</label>
                         <input value={field.defaultValue} placeholder={field.placeholder} className="form-control"
                                type={field.type} readOnly={field.validation.isReadOnly} required={field.validation.isRequired}/>
-                        <hr />
                     </div>
                 );
             }
@@ -108,7 +123,6 @@ class Preview extends Component{
                             }
                         </select>
                 }
-                <hr />
             </div>
             )
         }else if(field.toolType === 'CHECK_BOXES'){
@@ -134,7 +148,7 @@ class Preview extends Component{
                             })
                         }
                     </div>
-                    <hr />
+                    <br />
                 </div>
             )
         }else if(field.toolType === 'RADIO_BUTTONS'){
@@ -161,7 +175,7 @@ class Preview extends Component{
                             })
                         }
                    </div>
-                   <hr />
+                   <br />
                </div>
             )
         }else if(field.toolType === "PARAGRAPH"){
@@ -171,7 +185,6 @@ class Preview extends Component{
                     <p className="p-2" style={{ textAlign : field.align, backgroundColor : field.backgroundColor, color : field.textColor }}>
                         {field.content}
                     </p>
-                    <hr />
                 </div>
             )
         }else if(field.toolType === "DURATION_PICKER"){
@@ -189,7 +202,6 @@ class Preview extends Component{
                             <input placeholder="XX/XX/XXXX XX:XX XX" className="date_time_picker form-control" type="text"/>
                         </div>
                     </div>
-                    <hr />
                 </div>
             )
         }

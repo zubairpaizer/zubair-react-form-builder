@@ -76,7 +76,7 @@ class RadioButtons extends Component {
     render(){
         return(
             <div className="card card-outline-primary">
-                <div className="card-header"  style={{ backgroundColor : '#ccc062' }}>
+                <div className="card-header">
                     <i className="fa fa-circle mr-1"></i> Radio Buttons { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>

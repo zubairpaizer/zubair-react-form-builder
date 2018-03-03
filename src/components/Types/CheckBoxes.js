@@ -62,7 +62,7 @@ class CheckBoxes extends Component {
     render(){
         return(
             <div className="card card-outline-primary">
-                <div className="card-header" style={{ backgroundColor : '#585ccc' }}>
+                <div className="card-header">
                     <i className="fa fa-check-square mr-1"></i> Check Boxes { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>

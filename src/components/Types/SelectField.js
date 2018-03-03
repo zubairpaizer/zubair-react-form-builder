@@ -69,7 +69,7 @@ class SelectField extends Component {
     render() {
         return (
             <div className="card card-outline-primary">
-                <div className="card-header" style={{ backgroundColor : '#cc8555' }}>
+                <div className="card-header">
                     <i className="fa fa-chevron-circle-down mr-1"></i> Drop Down { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>

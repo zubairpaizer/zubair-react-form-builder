@@ -1,4 +1,4 @@
-[![npm package](https://img.shields.io/badge/npm-1.0.9-green.svg?style=flat-square)](https://www.npmjs.com/package/zubair-react-form-builder)
+[![npm package](https://img.shields.io/badge/npm-1.1.0-green.svg?style=flat-square)](https://www.npmjs.com/package/zubair-react-form-builder)
 [![Build Status](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://www.npmjs.com/package/zubair-react-form-builder)
 
 # Zubair React From Builder
@@ -21,6 +21,7 @@ Zubair React Form Builder help you to build forms with drag and drop you can als
 3. updateForm(callback) : Function
 4. updateOnMount : Boolean
 5. debug : Boolean
+6. loader: Boolean  // set save button on loading state
 
 // Note OnSave Props also turn on Save Button on &lt;FormContainer /&gt;
 

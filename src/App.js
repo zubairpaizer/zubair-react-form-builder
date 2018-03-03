@@ -64,7 +64,8 @@ class App extends Component {
             <div className="row">
                 <div className="col-md-8">
                     <FormContainer
-                        debug={true}
+                        loader={false}
+                        debug={false}
                         updateOnMount={true}
                         updateForm={this.updateForm}
                         onSave={this.myForm}

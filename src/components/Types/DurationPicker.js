@@ -57,7 +57,7 @@ class DurationPicker extends Component{
     render(){
         return(
             <div className="card card-outline-primary">
-                <div className="card-header"  style={{ backgroundColor : '#29b6cc' }}>
+                <div className="card-header">
                     <i className="fa fa-calendar"></i> Duration Picker { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>

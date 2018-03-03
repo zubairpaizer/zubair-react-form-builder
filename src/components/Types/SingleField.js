@@ -62,7 +62,7 @@ class SingleField extends Component{
     render(){
         return(
             <div className="card card-outline-primary">
-                <div className="card-header"  style={{ backgroundColor : '#9fcc4a' }}>
+                <div className="card-header">
                     <i className="fa fa-wpforms mr-1"></i> Single Field { this.state.title }
                     <span className='pull-right cross' onClick={() => this.props.removeField(this.props.index)}>x</span>
                 </div>

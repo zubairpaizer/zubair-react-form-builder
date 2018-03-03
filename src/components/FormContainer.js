@@ -19,6 +19,7 @@ class FormContainer extends Component {
         this.popForm = this.popForm.bind(this);
         this.catchField = this.catchField.bind(this);
         this.resetStateOrder = this.resetStateOrder.bind(this);
+        this.debugStateOrder = this.debugStateOrder.bind(this);
     }
 
     componentWillMount(){
@@ -53,7 +54,7 @@ class FormContainer extends Component {
                 {
                     this.props.debug === true ?
                         <pre>
-                            { JSON.stringify(this.state.orders, null, 2) }
+                            { JSON.stringify(this.debugStateOrder(), null, 2) }
                         </pre>
                         :
                         <span hidden={true}></span>
@@ -67,7 +68,12 @@ class FormContainer extends Component {
                         <div className="actions pull-right">
                             <button data-toggle="modal" data-target="#previewModal" className="btn btn-sm btn-dark">Preview</button>
                             { ' ' }
-                            <button hidden={!this.props.onSave} onClick={() => this.popForm()} className="btn btn-sm btn-success">Save</button>
+                            { 
+                                this.props.loader ? 
+                                <button disabled hidden={!this.props.onSave} className="btn btn-sm btn-success"><i className="fa fa-spin fa-spinner"></i></button>
+                                :
+                                <button hidden={!this.props.onSave} onClick={() => this.popForm()} className="btn btn-sm btn-success">Save</button>
+                            }
                         </div>
                     </div>
                     <div className={ this.state.dragActive ? 'dragActive card-body' : 'card-body'}>
@@ -89,13 +95,18 @@ class FormContainer extends Component {
 
     popForm(){
         let states = this.state.orders;
-
-        this.setState({
-            fields : [],
-            orders : []
+        let d = states.filter((data) => {
+            return data !== null && data !== undefined
         });
+        return this.props.onSave(d);
+    }
 
-        return this.props.onSave(states);
+    debugStateOrder(){
+        let states = this.state.orders;
+        let d = states.filter((data) => {
+            return data !== null && data !== undefined
+        });
+        return d;
     }
 
     componentDidMount(){
