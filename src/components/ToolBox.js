@@ -57,9 +57,6 @@ class ToolBox extends Component {
                             }
                         </ul>
                     </div>
-                    <div className="card-footer">
-                        <span className='pull-right'>Single Fields</span>
-                    </div>
                 </div>
             </div>
         );
