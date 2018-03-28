@@ -8,6 +8,7 @@ class DurationPicker extends Component{
             titleFrom : '',
             titleTo : '',
             type : 'DURATION',
+            name : '',
             toolType : 'DURATION_PICKER',
             defaultValue : '',
             placeholder : '',
@@ -20,8 +21,15 @@ class DurationPicker extends Component{
         this.changeValue = this.changeValue.bind(this);
     }
 
+    componentWillMount(){
+        this.setState(this.props.field);
+    }
+
     changeValue(stateFor, value){
         switch (stateFor){
+            case "NAME" :
+                this.setState( { name : value } )
+                break;
             case "TITLE" :
                 this.setState( { title : value } )
                 break;
@@ -79,6 +87,20 @@ class DurationPicker extends Component{
                     </ul>
                     <div hidden={this.state.tab !== 'general'} className="general">
                         <div className="card-body">
+                            <div className="row">
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <p className="alert alert-danger text-center">
+                                                <strong>NAME</strong> field will be use for the database
+                                            </p>
+                                            <label htmlFor="name">Name</label>
+                                            <input type="text"
+                                                value={this.state.name}
+                                                onChange={(e) => this.changeValue("NAME", e.target.value)}
+                                                placeholder='Name' className='form-control' />
+                                        </div>
+                                    </div>
+                            </div>
                             <div className="form-group">
                                 <label htmlFor="title">Label Title</label>
                                 <input type="text"

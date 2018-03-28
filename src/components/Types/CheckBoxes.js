@@ -9,6 +9,7 @@ class CheckBoxes extends Component {
             inline : false,
             toolType: "CHECK_BOXES",
             title : '',
+            name : '',
             defaultValue : '',
             description : '',
             validation : {
@@ -25,8 +26,15 @@ class CheckBoxes extends Component {
 
     }
 
+    componentWillMount(){
+        this.setState(this.props.field);
+    }
+
     changeValue(stateFor, value){
         switch (stateFor){
+            case "NAME" :
+                this.setState( { name : value } )
+                break;
             case "TITLE" :
                 this.setState( { title : value } )
                 break;
@@ -87,6 +95,20 @@ class CheckBoxes extends Component {
                     </ul>
                     <div hidden={this.state.tab !== 'general'} className="general">
                         <div className="card-body">
+                            <div className="row">
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <p className="alert alert-danger text-center">
+                                                <strong>NAME</strong> field will be use for the database
+                                            </p>
+                                            <label htmlFor="name">Name</label>
+                                            <input type="text"
+                                                value={this.state.name}
+                                                onChange={(e) => this.changeValue("NAME", e.target.value)}
+                                                placeholder='Name' className='form-control' />
+                                        </div>
+                                    </div>
+                            </div>
                             <div className="form-check">
                                 <input
                                     value={this.state.inline}

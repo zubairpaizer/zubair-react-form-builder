@@ -8,6 +8,7 @@ class Paragraph extends Component{
             toolType : 'PARAGRAPH',
             tab : '',
             title : '',
+            name : '',
             content : '',
             textColor : '#000000',
             backgroundColor : '#cccccc',
@@ -15,6 +16,10 @@ class Paragraph extends Component{
             fontSize : '10',
             align : 'center'
         }
+    }
+
+    componentWillMount(){
+        this.setState(this.props.field);
     }
 
     fontSizes(){
@@ -25,8 +30,12 @@ class Paragraph extends Component{
         return sizes;
     }
 
+
     changeValue(stateFor, value){
         switch (stateFor){
+            case "NAME" :
+                this.setState( { name : value } )
+                break;
             case "TITLE" :
                 this.setState( { title : value } )
                 break;
@@ -98,6 +107,20 @@ class Paragraph extends Component{
                         </div>
                         <div className="style" hidden={this.state.tab !== 'style'}>
                             <div className="card-body">
+                                <div className="row">
+                                        <div className="col-12">
+                                            <div className="form-group">
+                                                <p className="alert alert-danger text-center">
+                                                    <strong>NAME</strong> field will be use for the database
+                                                </p>
+                                                <label htmlFor="name">Name</label>
+                                                <input type="text"
+                                                    value={this.state.name}
+                                                    onChange={(e) => this.changeValue("NAME", e.target.value)}
+                                                    placeholder='Name' className='form-control' />
+                                            </div>
+                                        </div>
+                                </div>
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group">
