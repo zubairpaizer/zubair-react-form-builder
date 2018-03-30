@@ -90,7 +90,7 @@ class DurationPicker extends Component{
                             <div className="row">
                                     <div className="col-12">
                                         <div className="form-group">
-                                            <p className="alert alert-danger text-center">
+                                            <p className="alert alert-info text-center">
                                                 <strong>NAME</strong> field will be use for the database
                                             </p>
                                             <label htmlFor="name">Name</label>

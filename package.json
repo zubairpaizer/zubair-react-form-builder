@@ -1,6 +1,6 @@
 {
   "name": "zubair-react-form-builder",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Zubair Ibrahim <zubair.paizer@hotmail.com>",
   "main": "lib/index.js",
   "dependencies": {
@@ -32,7 +32,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-wbpack": "webpack --progress --colors --p",
-    "transpile": "babel src/components/ToolBox.js --preset babel-preset-es2015,babel-preset-stage-2,babel-preset-react --out-file lib/components/Types/ToolBox.js"
+    "transpile": "babel src/components/Types/SingleField.js --preset babel-preset-es2015,babel-preset-stage-2,babel-preset-react --out-file lib/components/Types/SingleField.js"
   },
   "repository": {
     "type": "git",

@@ -14,6 +14,5 @@ import '../node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-add
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 window.$ = window.jQuery = window.jquery = $;
 
-
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

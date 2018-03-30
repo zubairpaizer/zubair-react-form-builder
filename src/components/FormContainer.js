@@ -14,7 +14,8 @@ class FormContainer extends Component {
             dragActive : false,
             fields : [],
             orders : [],
-            change : false
+            change : false,
+            nameDuplicate: false
         }
         this.popForm = this.popForm.bind(this);
         this.catchField = this.catchField.bind(this);
@@ -48,6 +49,18 @@ class FormContainer extends Component {
         });
     }
 
+    ifDuplicated(){
+        if(this.state.nameDuplicate){
+            return {
+                backgroundColor: 'rgb(255, 167, 160)'
+            }
+        }else{
+            return {
+                backgroundColor: 'inherit'
+            }
+        }
+    }
+
     render() {
         return (
             <div className='toolbox' ref={(c) => this._toolBoxContainer = c}>
@@ -62,7 +75,7 @@ class FormContainer extends Component {
                 <Preview
                     previews={ this.props.custom }
                     fields={this.state.orders} id='previewModal' />
-                <div className="card card-default">
+                <div className="card card-default" style={this.ifDuplicated()}>
                     <div className="card-header">
                         <span className="pull-left">Form Container</span>
                         <div className="actions pull-right">
@@ -77,6 +90,16 @@ class FormContainer extends Component {
                         </div>
                     </div>
                     <div className={ this.state.dragActive ? 'dragActive card-body' : 'card-body'}>
+                        { this.state.nameDuplicate ? 
+                            <p className="alert alert-danger">
+                                <strong>Please resolve following errors.</strong>  
+                                <ul>
+                                    <li>Name field cannot be empty</li>
+                                    <li>Remove whitespaces from name field</li>
+                                    <li>Duplicate name field found</li>
+                                </ul> 
+                            </p>  : '' 
+                        }
                         <div ref={(l) => this.tooList = l} className="list-group">
                             { this.state.fields.length > 0 ?
                                 this.state.fields.map((field, index) => {
@@ -84,7 +107,17 @@ class FormContainer extends Component {
                                         this.renderToolBoxItems(field, index)
                                    )
                                 })
-                                : <span>I m waiting your step</span>
+                                : <div>
+                                    <p style={{
+                                        textAlign: 'center',
+                                        padding: '2em',
+                                        fontSize: '18pt',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                        color: '#aaa',
+                                        backgroundColor: '#eee'
+                                    }}>Drag a tool</p>
+                                </div>
                             }
                         </div>
                     </div>
@@ -224,7 +257,8 @@ class FormContainer extends Component {
             )
         }else if(field.toolType === 'DURATION_PICKER'){
             return (
-                <DurationPicker changeState={(e, index) => this.changeChildState(e, index)}
+                <DurationPicker 
+                             changeState={(e, index) => this.changeChildState(e, index)}
                              field={field}
                              index={index}
                              key={index}
@@ -240,6 +274,30 @@ class FormContainer extends Component {
             this.setState( { fields : fields, change : this.state.change });
         }
         this.resetStateOrder();
+        this.nameDuplicateReflector();
+    }
+
+    nameDuplicateReflector(){
+        // duplicate names
+        let f = this.state.fields;
+        var arr = [];
+        f.forEach((i) => {
+            if(i.name !== undefined && i.name.trim() !== "" && i.name.indexOf(' ') === -1){
+                arr.push(i.name);
+            }
+        });
+        let unique = arr.filter(function (value, index, self) { 
+            return self.indexOf(value) === index;
+        });
+        if(f.length !== unique.length){
+            this.setState({
+                nameDuplicate: true
+            });
+        }else{
+            this.setState({
+                nameDuplicate: false
+            });
+        }
     }
 
     remove(indexR){
@@ -250,6 +308,7 @@ class FormContainer extends Component {
             change : this.state.change
         });
          this.resetStateOrder();
+         this.nameDuplicateReflector();
     }
 
     catchField(data){
@@ -270,6 +329,7 @@ class FormContainer extends Component {
                     fields: fields
                 });
                 this.resetStateOrder();
+                this.nameDuplicateReflector();
                 return;
             }
         }
@@ -384,6 +444,7 @@ class FormContainer extends Component {
             fields : fields
         });
         this.resetStateOrder();
+        this.nameDuplicateReflector();
     }
 }
 

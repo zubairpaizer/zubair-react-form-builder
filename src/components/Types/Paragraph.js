@@ -89,6 +89,16 @@ class Paragraph extends Component{
                         <div className="content" hidden={this.state.tab !== 'content'}>
                             <div className="card-body">
                                 <div className="form-group">
+                                    <p className="alert alert-info text-center">
+                                        <strong>NAME</strong> field will be use for the database
+                                    </p>
+                                    <label htmlFor="name">Name</label>
+                                    <input type="text"
+                                        value={this.state.name}
+                                        onChange={(e) => this.changeValue("NAME", e.target.value)}
+                                        placeholder='Name' className='form-control' />
+                                </div>
+                                <div className="form-group">
                                     <label className="label" htmlFor="title">Title</label>
                                     <input id="title"
                                            value={this.state.title}
@@ -107,20 +117,6 @@ class Paragraph extends Component{
                         </div>
                         <div className="style" hidden={this.state.tab !== 'style'}>
                             <div className="card-body">
-                                <div className="row">
-                                        <div className="col-12">
-                                            <div className="form-group">
-                                                <p className="alert alert-danger text-center">
-                                                    <strong>NAME</strong> field will be use for the database
-                                                </p>
-                                                <label htmlFor="name">Name</label>
-                                                <input type="text"
-                                                    value={this.state.name}
-                                                    onChange={(e) => this.changeValue("NAME", e.target.value)}
-                                                    placeholder='Name' className='form-control' />
-                                            </div>
-                                        </div>
-                                </div>
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group">
